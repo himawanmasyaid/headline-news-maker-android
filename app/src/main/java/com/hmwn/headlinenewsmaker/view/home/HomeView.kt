@@ -38,7 +38,9 @@ import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
 fun HomeView(context: Context? = null) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            modifier = Modifier
+                .background(Color.White)
+                .padding(start = 16.dp, end = 16.dp)
         ) {
 
             Spacer(modifier = Modifier.height(8.dp))

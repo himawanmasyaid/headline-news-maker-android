@@ -1,5 +1,6 @@
 package com.hmwn.headlinenewsmaker.view.createnews
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -21,9 +22,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hmwn.headlinenewsmaker.view.preview.PreviewNewsActivity
 
 class CreateNewsActivity : ComponentActivity() {
 
+    val headline = mutableStateOf("")
+    val author = mutableStateOf("")
+    val datetime = mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,53 +39,47 @@ class CreateNewsActivity : ComponentActivity() {
 
     }
 
-}
-
-val headline = mutableStateOf("")
-val author = mutableStateOf("")
-val datetime = mutableStateOf("")
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CreateNewsView() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = headline.value,
-            onValueChange = { headline.value = it },
-            label = { Text("Headline") },
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun CreateNewsView() {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-        OutlinedTextField(
-            value = author.value,
-            onValueChange = { author.value = it },
-            label = { Text("Author") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-        OutlinedTextField(
-            value = datetime.value,
-            onValueChange = { datetime.value = it },
-            label = { Text("Datetime") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Button(
-            onClick = {
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = headline.value,
+                onValueChange = { headline.value = it },
+                label = { Text("Headline") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+            OutlinedTextField(
+                value = author.value,
+                onValueChange = { author.value = it },
+                label = { Text("Author") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+            OutlinedTextField(
+                value = datetime.value,
+                onValueChange = { datetime.value = it },
+                label = { Text("Datetime") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = {
 
-                setLog("Create News")
-                      setLog("headline : ${headline.value}")
-                      setLog("author : ${author.value}")
-                      setLog("datetime : ${datetime.value}")
+                    setLog("Create News")
+                    setLog("headline : ${headline.value}")
+                    setLog("author : ${author.value}")
+                    setLog("datetime : ${datetime.value}")
 
 //                val inputData = InputData(
 //                    viewModel.headline.value,
@@ -89,18 +88,22 @@ private fun CreateNewsView() {
 //                )
 //                onNavigate(inputData)
 
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text("Next")
+                    startActivity(Intent(this@CreateNewsActivity, PreviewNewsActivity::class.java))
+
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("Next")
+            }
         }
     }
-}
 
-private fun setLog(msg: String) {
-    Log.e("create", msg)
+    private fun setLog(msg: String) {
+        Log.e("create", msg)
+    }
+
 }
 
 @Preview(
@@ -108,5 +111,5 @@ private fun setLog(msg: String) {
     showBackground = true
 )@Composable
 fun PreviewSplashScreen() {
-    CreateNewsView()
+    CreateNewsActivity().CreateNewsView()
 }

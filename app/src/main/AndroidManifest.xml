@@ -29,6 +29,9 @@
         <activity
             android:name=".view.createnews.CreateNewsActivity"
             android:exported="true" />
+        <activity
+            android:name=".view.preview.PreviewNewsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

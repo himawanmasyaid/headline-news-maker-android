@@ -29,14 +29,12 @@ class SplashActivity : ComponentActivity() {
 
         setContent {
             SplashView()
+        }
 
-            // Delay for 5 seconds before navigating to MainActivity
-            runBlocking {
-                delay(5000L)
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                finish()
-            }
-
+        runBlocking {
+            delay(5000L)
+            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            finish()
         }
 
     }
