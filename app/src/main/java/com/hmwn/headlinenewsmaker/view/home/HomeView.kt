@@ -1,5 +1,6 @@
 package com.hmwn.headlinenewsmaker.view.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
@@ -18,7 +19,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,39 +37,40 @@ import com.hmwn.headlinenewsmaker.data.model.News
 import com.hmwn.headlinenewsmaker.view.MainActivity
 import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeView(context: Context? = null) {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .background(Color.White)
-                .padding(start = 16.dp, end = 16.dp)
-        ) {
 
-            Spacer(modifier = Modifier.height(8.dp))
+    Column(
+        modifier = Modifier
+            .background(Color.White)
+            .padding(start = 16.dp, end = 16.dp)
+    ) {
 
-            CustomButton(onClick = {
-                context?.startActivity(Intent(context, CreateNewsActivity::class.java))
-            }, icon = R.drawable.ic_baseline_add_white, text = "Create Headline News")
+        Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
+        CustomButton(onClick = {
+            context?.startActivity(Intent(context, CreateNewsActivity::class.java))
+        }, icon = R.drawable.ic_baseline_add_white, text = "Create Headline News")
 
-            NewsCard(
-                News(
-                    "Minta BUatkan Desain rumah, Ibu Ini Beri Imbalan Dijodohkan dengan Anaknya",
-                    "Himawan",
-                    "Kamis, 25 May 2024"
-                )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        NewsCard(
+            News(
+                "Minta BUatkan Desain rumah, Ibu Ini Beri Imbalan Dijodohkan dengan Anaknya",
+                "Himawan",
+                "Kamis, 25 May 2024"
             )
-            NewsCard(
-                News(
-                    "Baru 3 Hari Menikah, Istri Kabur karena Tahu Gaji Suami Hanya Rp 3,9 Juta",
-                    "Raditya",
-                    "This is another sample message"
-                )
+        )
+        NewsCard(
+            News(
+                "Baru 3 Hari Menikah, Istri Kabur karena Tahu Gaji Suami Hanya Rp 3,9 Juta",
+                "Raditya",
+                "This is another sample message"
             )
-        }
+        )
     }
+
 }
 
 @Composable
