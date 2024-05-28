@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,9 +35,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.data.model.News
+import com.hmwn.headlinenewsmaker.ui.theme.body1
+import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
+import com.hmwn.headlinenewsmaker.ui.theme.body1Medium
+import com.hmwn.headlinenewsmaker.ui.theme.body2Bold
+import com.hmwn.headlinenewsmaker.ui.theme.h7
+import com.hmwn.headlinenewsmaker.ui.theme.h7Medium
+import com.hmwn.headlinenewsmaker.ui.theme.poppinsMedium
 import com.hmwn.headlinenewsmaker.view.MainActivity
+import com.hmwn.headlinenewsmaker.view.card.HeadlineNewsCard
 import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -47,28 +59,36 @@ fun HomeView(context: Context? = null) {
             .padding(start = 16.dp, end = 16.dp)
     ) {
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         CustomButton(onClick = {
             context?.startActivity(Intent(context, CreateNewsActivity::class.java))
         }, icon = R.drawable.ic_baseline_add_white, text = "Create Headline News")
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        NewsCard(
-            News(
-                "Minta BUatkan Desain rumah, Ibu Ini Beri Imbalan Dijodohkan dengan Anaknya",
-                "Himawan",
-                "Kamis, 25 May 2024"
-            )
+        Text(
+            text = "Headline History",
+            style = h7Medium,
         )
-        NewsCard(
-            News(
-                "Baru 3 Hari Menikah, Istri Kabur karena Tahu Gaji Suami Hanya Rp 3,9 Juta",
-                "Raditya",
-                "This is another sample message"
-            )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        val news: List<News> = listOf<News>(
+            News(),
+            News(),
+            News(),
         )
+
+        Box() {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                items(news) {
+                    HeadlineNewsCard(it)
+                }
+            }
+        }
     }
 
 }
@@ -80,12 +100,13 @@ fun CustomButton(onClick: () -> Unit, icon: Int, text: String) {
             .fillMaxWidth()
             .height(100.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFF60E9FF))
+            .background(Color(0xFF13ade9))
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
             Image(
                 painter = painterResource(icon),
                 contentDescription = null,
@@ -94,42 +115,23 @@ fun CustomButton(onClick: () -> Unit, icon: Int, text: String) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(text = text, color = Color.White)
-        }
-    }
-}
-
-@Composable
-fun NewsCard(news: News) {
-    Row(modifier = Modifier.padding(all = 8.dp)) {
-        Image(
-            painter = painterResource(R.drawable.ic_baseline_add_white),
-            contentDescription = null,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .border(1.5.dp, MaterialTheme.colorScheme.primary, CircleShape)
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Column {
             Text(
-                text = news.headline,
-                color = MaterialTheme.colorScheme.secondary
+                text = text,
+                color = Color.White,
+                style = body1Bold,
+                letterSpacing = 0.5.sp
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = news.author)
         }
     }
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-private fun PreviewHomeView() {
-    HomeView()
-}
+
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//private fun PreviewHomeView() {
+//    HomeView()
+//}
