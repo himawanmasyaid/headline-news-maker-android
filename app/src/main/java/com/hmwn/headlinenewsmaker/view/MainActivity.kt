@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // A surface container using the 'background' color from the theme
             Surface(
                 modifier = Modifier.fillMaxSize(),
             ) {
@@ -87,62 +86,63 @@ class MainActivity : ComponentActivity() {
     fun AppBarView(
         title: String
     ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-        ) {
-
-            Row(
+        Surface(shadowElevation = 2.dp) {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
-                ,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
+                    .background(Color.White)
             ) {
 
-                Text(
-                    text = title,
-                    style = h7,
+                Row(
                     modifier = Modifier
-                        .padding(top = 5.dp)
-                        .weight(1f)
-                )
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
+                    ,
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
 
-                Row() {
-                    IconButton(
-                        onClick = {
+                    Text(
+                        text = title,
+                        style = h7,
+                        modifier = Modifier
+                            .padding(top = 5.dp)
+                            .weight(1f)
+                    )
 
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Share,
-                            contentDescription = "Share",
-                            tint = Color.Black
-                        )
+                    Row() {
+                        IconButton(
+                            onClick = {
+
+                            }) {
+                            Icon(
+                                imageVector = Icons.Filled.Share,
+                                contentDescription = "Share",
+                                tint = Color.Black
+                            )
+                        }
+
+                        IconButton(onClick = {
+
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.Settings,
+                                contentDescription = "Settings",
+                                tint = Color.Black
+                            )
+                        }
                     }
 
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Settings,
-                            contentDescription = "Settings",
-                            tint = Color.Black
-                        )
-                    }
                 }
 
+                Spacer(
+                    modifier = Modifier
+                        .height(1.dp)
+                        .fillMaxWidth()
+                        .background(black5)
+                )
+
             }
-
-            Spacer(
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(black5)
-            )
-
         }
     }
 

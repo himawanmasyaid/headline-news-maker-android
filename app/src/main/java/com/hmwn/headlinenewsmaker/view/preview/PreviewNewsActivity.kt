@@ -61,6 +61,12 @@ class PreviewNewsActivity : ComponentActivity() {
     private var author = ""
     private var datetime = ""
 
+    companion object {
+        const val HEADLINE_ARG = "headline"
+        const val AUTHOR_ARG = "author"
+        const val DATETIME_ARG = "datetime"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,9 +80,9 @@ class PreviewNewsActivity : ComponentActivity() {
 
     private fun getIntentData() {
 
-        headline = intent.getStringExtra("headline") ?: ""
-        author = intent.getStringExtra("author") ?: ""
-        datetime = intent.getStringExtra("datetime") ?: ""
+        headline = intent.getStringExtra(HEADLINE_ARG) ?: ""
+        author = intent.getStringExtra(AUTHOR_ARG) ?: ""
+        datetime = intent.getStringExtra(DATETIME_ARG) ?: ""
 
     }
 
@@ -282,11 +288,11 @@ class PreviewNewsActivity : ComponentActivity() {
 
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-private fun PreviewScreen() {
-    PreviewNewsActivity().MainView()
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//private fun PreviewScreen() {
+//    PreviewNewsActivity().MainView()
+//}

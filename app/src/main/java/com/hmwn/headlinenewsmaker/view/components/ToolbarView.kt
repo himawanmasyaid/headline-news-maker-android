@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -30,32 +31,35 @@ import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolbarView(title: String, onBackClick: () -> Unit) {
-    TopAppBar(
-        title = {
-            Text(
-                title,
-                style = body1Medium
-            )
-        },
-        navigationIcon = {
-            IconButton(onBackClick) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back Button"
+
+    Surface(shadowElevation = 3.dp) {
+        TopAppBar(
+            title = {
+                Text(
+                    title,
+                    style = body1Medium
                 )
-            }
-        },
-        colors = TopAppBarDefaults.largeTopAppBarColors(
-            containerColor = Color.White,
-            titleContentColor = black1
+            },
+            navigationIcon = {
+                IconButton(onBackClick) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back Button"
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.largeTopAppBarColors(
+                containerColor = Color.White,
+                titleContentColor = black1
+            ),
         )
-    )
+    }
 }
 
-//@Preview(
-//    showBackground = true
-//)@Composable
-//fun PreviewToolbarView() {
-//    ToolbarView("Lorem Ipsum") {
-//    }
-//}
+@Preview(
+    showBackground = true
+)@Composable
+fun PreviewToolbarView() {
+    ToolbarView("Lorem Ipsum") {
+    }
+}
