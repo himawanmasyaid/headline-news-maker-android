@@ -148,8 +148,8 @@ class MainActivity : ComponentActivity() {
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MainActivityPreview() {
-    MainActivity().InitView()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MainActivityPreview() {
+//    MainActivity().InitView()
+//}

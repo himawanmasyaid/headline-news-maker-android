@@ -27,6 +27,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
@@ -50,19 +51,15 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalView
 import com.hmwn.headlinenewsmaker.common.toast
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
 
 class PreviewNewsActivity : ComponentActivity() {
 
     private var headline = ""
     private var author = ""
     private var datetime = ""
-
-//    var viewToConvert = remember { mutableStateOf<View?>(null) }
-//    var contentBounds = remember { mutableStateOf<Rect?>(null) }
-
-//    var localContext: Context? = null
-//    var localView: View? = null
-//    var localDensity: Float? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,13 +96,7 @@ class PreviewNewsActivity : ComponentActivity() {
                         .padding(16.dp)
                         .fillMaxWidth(),
                     onClick = {
-
-                        convertViewToBitmap(context, view, density)
-
-//                        convertViewToBitmap(localContext!!, viewToConvert.value, localDensity!!)
-//                        viewToConvert.value?.let {
-//                            convertViewToBitmap(localContext!!, it, localDensity!!)
-//                        }
+//                        convertViewToBitmap(context, view, density)
                     }
                 ) {
                     Text(
@@ -217,12 +208,11 @@ class PreviewNewsActivity : ComponentActivity() {
         view.draw(canvas)
 
         // Save the bitmap as an image
-        val savedUri = saveBitmapToGallery(context, bitmap)
-        setLog("uri image : $savedUri")
-        openImageInGallery(savedUri)
-
-//        if (savedUri != null) {
-//        }
+        val uri = saveBitmapToGallery(context, bitmap)
+        setLog("uri image : $uri")
+//        val file: File = saveBitmapToGalleryAsFile(bitmap)
+//        setLog("file image : $file")
+        openImageInGallery(uri)
 
     }
 
@@ -230,16 +220,25 @@ class PreviewNewsActivity : ComponentActivity() {
 
         if (imageUri != null) {
             val intent = Intent(Intent.ACTION_VIEW, imageUri)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            } else {
-                intent.setDataAndType(imageUri, "image/*")
-            }
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
             startActivity(intent)
         } else {
             toast("Gambar Tidak Ditemukan")
         }
 
+    }
+
+    private fun saveBitmapToGalleryAsFile(bitmap: Bitmap): File {
+        val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(directory, "image_${System.currentTimeMillis()}.jpg")
+        val fos = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        fos.close()
+
+        // Add the image to the gallery
+        sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)))
+
+        return file
     }
 
     fun saveBitmapToGallery(context: Context, bitmap: Bitmap): Uri? {
