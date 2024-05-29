@@ -129,10 +129,10 @@ class CreateNewsActivity : ComponentActivity() {
 
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)@Composable
-fun PreviewSplashScreen() {
-    CreateNewsActivity().CreateNewsView()
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)@Composable
+//fun PreviewSplashScreen() {
+//    CreateNewsActivity().CreateNewsView()
+//}

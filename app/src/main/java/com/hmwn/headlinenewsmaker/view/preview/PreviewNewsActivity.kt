@@ -37,14 +37,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -52,6 +56,12 @@ import androidx.compose.ui.platform.LocalView
 import com.hmwn.headlinenewsmaker.common.toast
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.FileProvider
+import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
@@ -60,6 +70,8 @@ class PreviewNewsActivity : ComponentActivity() {
     private var headline = ""
     private var author = ""
     private var datetime = ""
+    private lateinit var currentView: View
+    private var currentDensity: Float = 0.0f
 
     companion object {
         const val HEADLINE_ARG = "headline"
@@ -91,37 +103,66 @@ class PreviewNewsActivity : ComponentActivity() {
     @Composable
     fun MainView() {
 
+        var isButtonVisible by remember { mutableStateOf(true) }
         val context = LocalContext.current
-        val view = LocalView.current
-        val density = LocalDensity.current.density
 
         Scaffold(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Black),
             bottomBar = {
-                Button(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    onClick = {
-//                        convertViewToBitmap(context, view, density)
+
+                if (isButtonVisible) {
+
+                    Box() {
+                        Button(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            onClick = {
+
+                                isButtonVisible = false
+
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    delay(2000) // Simulate loading delay for 2 seconds
+                                    withContext(Dispatchers.Main) {
+                                        convertViewToBitmap(context, currentView, currentDensity)
+                                    }
+                                }
+                            }
+                        ) {
+                            Text(
+                                "Download Image",
+                                fontSize = 16.sp,
+                                fontFamily = FontPrimary,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.padding(top = 6.dp, bottom = 6.dp)
+                            )
+                        }
                     }
-                ) {
-                    Text(
-                        "Download Image",
-                        fontSize = 16.sp,
-                        fontFamily = FontPrimary,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 6.dp, bottom = 6.dp)
-                    )
+
                 }
+
             },
             content = {
-                HeadlinePreviewView()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HeadlinePreviewView()
+                }
+
             }
         )
     }
 
     @Composable
     fun HeadlinePreviewView() {
+
+        currentView = LocalView.current
+        currentDensity = LocalDensity.current.density
 
         Column(
             modifier = Modifier
@@ -160,7 +201,7 @@ class PreviewNewsActivity : ComponentActivity() {
 
     }
 
-    fun convertViewToBitmap(context: Context, view: View, density: Float) {
+    private fun convertViewToBitmap(context: Context, view: View, density: Float) {
 
         setLog("convertViewToBitmap")
 
@@ -193,19 +234,19 @@ class PreviewNewsActivity : ComponentActivity() {
         setLog("persen : $percent")
         setLog("customScale : $customScale")
 
+        // Custom a Bitmap of the scaled size
+//        val bitmap = Bitmap.createBitmap(
+//            scaledWidth,
+//            customScale,
+//            Bitmap.Config.ARGB_8888
+//        )
+
         // Create a Bitmap of the scaled size
         val bitmap = Bitmap.createBitmap(
             scaledWidth,
-            customScale,
+            scaledHeight,
             Bitmap.Config.ARGB_8888
         )
-
-        // Create a Bitmap of the scaled size
-//        val bitmap = Bitmap.createBitmap(
-//            scaledWidth,
-//            scaledHeight,
-//            Bitmap.Config.ARGB_8888
-//        )
 
         val canvas = Canvas(bitmap)
 
@@ -214,11 +255,8 @@ class PreviewNewsActivity : ComponentActivity() {
         view.draw(canvas)
 
         // Save the bitmap as an image
-        val uri = saveBitmapToGallery(context, bitmap)
-        setLog("uri image : $uri")
-//        val file: File = saveBitmapToGalleryAsFile(bitmap)
-//        setLog("file image : $file")
-        openImageInGallery(uri)
+//        val uri = saveBitmapToGallery(context, bitmap)
+        saveImageToDirectory(context, bitmap, headline)
 
     }
 
@@ -235,7 +273,8 @@ class PreviewNewsActivity : ComponentActivity() {
     }
 
     private fun saveBitmapToGalleryAsFile(bitmap: Bitmap): File {
-        val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val directory =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val file = File(directory, "image_${System.currentTimeMillis()}.jpg")
         val fos = FileOutputStream(file)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
@@ -280,6 +319,32 @@ class PreviewNewsActivity : ComponentActivity() {
         }
 
         return null
+    }
+
+    fun saveImageToDirectory(context: Context, bitmap: Bitmap, fileName: String): Boolean {
+        val values = ContentValues()
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+        values.put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/")
+
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+        } else {
+            context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        }
+
+        if (uri != null) {
+            val fos = context.contentResolver.openOutputStream(uri) ?: return false
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+            fos.close()
+
+            toast("Download success $fileName")
+            return true
+        } else {
+            toast("Failed Download")
+            return false
+        }
     }
 
     private fun setLog(msg: String) {
