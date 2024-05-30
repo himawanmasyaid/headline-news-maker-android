@@ -42,6 +42,7 @@ import com.hmwn.headlinenewsmaker.ui.theme.body1
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
 import com.hmwn.headlinenewsmaker.ui.theme.body1Medium
 import com.hmwn.headlinenewsmaker.ui.theme.body2Bold
+import com.hmwn.headlinenewsmaker.ui.theme.h6
 import com.hmwn.headlinenewsmaker.ui.theme.h7
 import com.hmwn.headlinenewsmaker.ui.theme.h7Medium
 import com.hmwn.headlinenewsmaker.ui.theme.poppinsMedium
@@ -69,7 +70,7 @@ fun HomeView(context: Context? = null) {
 
         Text(
             text = "Headline History",
-            style = h7Medium,
+            style = h6,
         )
 
         Spacer(modifier = Modifier.height(18.dp))

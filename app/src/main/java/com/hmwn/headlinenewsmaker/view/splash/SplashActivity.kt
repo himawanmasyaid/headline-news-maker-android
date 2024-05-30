@@ -1,7 +1,11 @@
 package com.hmwn.headlinenewsmaker.view.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.window.SplashScreen
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,11 +35,11 @@ class SplashActivity : ComponentActivity() {
             SplashView()
         }
 
-        runBlocking {
-            delay(5000L)
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
-        }
+        }, 2000)
 
     }
 }
@@ -43,7 +47,11 @@ class SplashActivity : ComponentActivity() {
 @Composable
 private fun SplashView() {
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(
+        modifier =
+        Modifier.fillMaxSize(),
+        color = Color.White
+    ) {
         Column(
             modifier = Modifier
                 .background(Color.White)
@@ -52,7 +60,7 @@ private fun SplashView() {
             verticalArrangement = Arrangement.Center
         ) {
 
-            Text("NEWS")
+            Text("BREAKING NEWS")
 
 //            Image(
 //                painter = painterResource(R.drawable.ic_launcher),
@@ -69,7 +77,8 @@ private fun SplashView() {
 @Preview(
     showSystemUi = true,
     showBackground = true
-)@Composable
+)
+@Composable
 fun PreviewSplashScreen() {
     SplashView()
 }

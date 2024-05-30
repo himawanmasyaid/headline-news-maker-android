@@ -25,13 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.data.model.News
+import com.hmwn.headlinenewsmaker.ui.theme.black1
 import com.hmwn.headlinenewsmaker.ui.theme.black3
 import com.hmwn.headlinenewsmaker.ui.theme.black4
+import com.hmwn.headlinenewsmaker.ui.theme.black5
 import com.hmwn.headlinenewsmaker.ui.theme.body1
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
 import com.hmwn.headlinenewsmaker.ui.theme.body1Medium
 import com.hmwn.headlinenewsmaker.ui.theme.body2
 import com.hmwn.headlinenewsmaker.ui.theme.body3
+import com.hmwn.headlinenewsmaker.ui.theme.body4
 import com.hmwn.headlinenewsmaker.ui.theme.h1
 import com.hmwn.headlinenewsmaker.ui.theme.h7
 
@@ -40,9 +43,13 @@ fun HeadlineNewsCard(news: News) {
 
     Column(
     ) {
+
+        Spacer(modifier = Modifier.height(4.dp))
+
         Text(
             text = news.headline,
             style = body1Bold,
+            color = black1
         )
 
         Spacer(modifier = Modifier.height(6.dp))
@@ -50,13 +57,15 @@ fun HeadlineNewsCard(news: News) {
         Text(
             text = news.author,
             style = body1Medium,
+            color = black1
         )
 
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = news.datetime,
-            style = body2,
+            style = body3,
+            color = black3
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -65,25 +74,26 @@ fun HeadlineNewsCard(news: News) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(black4)
+                .background(black5)
         )
+
         Spacer(modifier = Modifier.height(6.dp))
 
     }
 
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-private fun HeadlineNewsCardView() {
-    HeadlineNewsCard(
-        News(
-            "Baru 3 Hari Menikah, Istri Kabur karena Tahu Gaji Suami Hanya Rp 3,9 Juta",
-            "Umar Syaid Himawan",
-            "Kamis, 25 Mei 2024 - 20:00"
-        )
-    )
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//private fun HeadlineNewsCardView() {
+//    HeadlineNewsCard(
+//        News(
+//            "Baru 3 Hari Menikah, Istri Kabur karena Tahu Gaji Suami Hanya Rp 3,9 Juta",
+//            "Umar Syaid Himawan",
+//            "Kamis, 25 Mei 2024 - 20:00"
+//        )
+//    )
+//}

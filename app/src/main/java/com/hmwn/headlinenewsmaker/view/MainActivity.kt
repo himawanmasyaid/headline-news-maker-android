@@ -43,6 +43,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hmwn.headlinenewsmaker.ui.theme.black5
+import com.hmwn.headlinenewsmaker.ui.theme.body1
+import com.hmwn.headlinenewsmaker.ui.theme.body1Medium
 import com.hmwn.headlinenewsmaker.ui.theme.h7
 import com.hmwn.headlinenewsmaker.ui.theme.h7Medium
 
@@ -90,12 +92,14 @@ class MainActivity : ComponentActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
                     .background(Color.White)
             ) {
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .fillMaxHeight()
                         .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
                     ,
                     verticalAlignment = Alignment.CenterVertically,
@@ -104,43 +108,44 @@ class MainActivity : ComponentActivity() {
 
                     Text(
                         text = title,
-                        style = h7,
+                        style = body1Medium,
                         modifier = Modifier
                             .padding(top = 5.dp)
                             .weight(1f)
                     )
 
-                    Row() {
-                        IconButton(
-                            onClick = {
-
-                            }) {
-                            Icon(
-                                imageVector = Icons.Filled.Share,
-                                contentDescription = "Share",
-                                tint = Color.Black
-                            )
-                        }
-
-                        IconButton(onClick = {
-
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.Settings,
-                                contentDescription = "Settings",
-                                tint = Color.Black
-                            )
-                        }
-                    }
+                    // lock feature
+//                    Row() {
+//                        IconButton(
+//                            onClick = {
+//
+//                            }) {
+//                            Icon(
+//                                imageVector = Icons.Filled.Share,
+//                                contentDescription = "Share",
+//                                tint = Color.Black
+//                            )
+//                        }
+//
+//                        IconButton(onClick = {
+//
+//                        }) {
+//                            Icon(
+//                                imageVector = Icons.Filled.Settings,
+//                                contentDescription = "Settings",
+//                                tint = Color.Black
+//                            )
+//                        }
+//                    }
 
                 }
 
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(black5)
-                )
+//                Spacer(
+//                    modifier = Modifier
+//                        .height(1.dp)
+//                        .fillMaxWidth()
+//                        .background(black5)
+//                )
 
             }
         }
@@ -148,8 +153,8 @@ class MainActivity : ComponentActivity() {
 
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun MainActivityPreview() {
-//    MainActivity().InitView()
-//}
+@Preview(showBackground = true)
+@Composable
+fun MainActivityPreview() {
+    MainActivity().InitView()
+}
