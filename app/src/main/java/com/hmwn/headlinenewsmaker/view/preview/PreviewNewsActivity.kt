@@ -72,6 +72,7 @@ class PreviewNewsActivity : ComponentActivity() {
     private var datetime = ""
     private lateinit var currentView: View
     private var currentDensity: Float = 0.0f
+    private var imageUri : Uri? = null
 
     companion object {
         const val HEADLINE_ARG = "headline"
@@ -123,16 +124,27 @@ class PreviewNewsActivity : ComponentActivity() {
 
                                 isButtonVisible = false
 
+                                if (imageUri == null) {
+                                    toast("Loading ...")
+                                }
+
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    delay(2000) // Simulate loading delay for 2 seconds
+                                    delay(500) // Simulate loading delay for 2 seconds
                                     withContext(Dispatchers.Main) {
-                                        convertViewToBitmap(context, currentView, currentDensity)
+                                        if (imageUri == null) {
+                                            convertViewToBitmap(context, currentView, currentDensity)
+                                            delay(500)
+                                            isButtonVisible = true
+                                        } else {
+                                            openImageInGallery(imageUri)
+                                        }
+
                                     }
                                 }
                             }
                         ) {
                             Text(
-                                "Download Image",
+                                if (imageUri == null) "Download Image" else "Open Image",
                                 fontSize = 16.sp,
                                 fontFamily = FontPrimary,
                                 fontWeight = FontWeight.Medium,
@@ -175,7 +187,7 @@ class PreviewNewsActivity : ComponentActivity() {
 
             // headline
             Text(
-                "Baru 3 Hari Menikah, Istri Kabur karena Tahu Gaji Suami Hanya Rp 3,9 Juta",
+                headline,
                 fontFamily = FontPrimary,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 24.sp,
@@ -183,7 +195,7 @@ class PreviewNewsActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(16.dp))
             // author
             Text(
-                "Himawan",
+                author,
                 fontFamily = FontPrimary,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,
@@ -191,7 +203,7 @@ class PreviewNewsActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(2.dp))
             // date time
             Text(
-                "Kamis, 25 Mei 2024 | 20:00",
+                datetime,
                 fontFamily = FontPrimary,
                 fontWeight = FontWeight.Normal,
                 fontSize = 14.sp,
@@ -202,8 +214,6 @@ class PreviewNewsActivity : ComponentActivity() {
     }
 
     private fun convertViewToBitmap(context: Context, view: View, density: Float) {
-
-        setLog("convertViewToBitmap")
 
         // Get display metrics to calculate scale
         val displayMetrics = DisplayMetrics()
@@ -217,22 +227,9 @@ class PreviewNewsActivity : ComponentActivity() {
         val scaledWidth = (view.width * scale).toInt()
         val scaledHeight = (view.height * scale).toInt()
 
-        setLog("scaled width : $scaledWidth")
-        setLog("scaled height : $scaledHeight")
-        setLog("density : $density")
-
-        // scale frame
-//        val customScale = scaledHeight - scaledWidth
-
-//        val persen = scaledHeight * 100 / 20f
-//        val customScale = scaledHeight - persen
-
         // crop button
         val percent = (scaledHeight * 10) / 100
         val customScale: Int = scaledHeight - percent
-
-        setLog("persen : $percent")
-        setLog("customScale : $customScale")
 
         // Custom a Bitmap of the scaled size
 //        val bitmap = Bitmap.createBitmap(
@@ -255,75 +252,24 @@ class PreviewNewsActivity : ComponentActivity() {
         view.draw(canvas)
 
         // Save the bitmap as an image
-//        val uri = saveBitmapToGallery(context, bitmap)
         saveImageToDirectory(context, bitmap, headline)
 
     }
 
-    fun openImageInGallery(imageUri: Uri?) {
+    fun openImageInGallery(uri: Uri?) {
 
-        if (imageUri != null) {
-            val intent = Intent(Intent.ACTION_VIEW, imageUri)
-            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        if (uri != null) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(uri, "image/*")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
-        } else {
-            toast("Gambar Tidak Ditemukan")
         }
 
-    }
-
-    private fun saveBitmapToGalleryAsFile(bitmap: Bitmap): File {
-        val directory =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val file = File(directory, "image_${System.currentTimeMillis()}.jpg")
-        val fos = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-        fos.close()
-
-        // Add the image to the gallery
-        sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)))
-
-        return file
-    }
-
-    fun saveBitmapToGallery(context: Context, bitmap: Bitmap): Uri? {
-        val contentValues = ContentValues().apply {
-            put(
-                MediaStore.Images.Media.DISPLAY_NAME,
-                "quote_image_${System.currentTimeMillis()}.png"
-            )
-            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                put(MediaStore.Images.Media.IS_PENDING, 1)
-            }
-        }
-
-        val resolver = context.contentResolver
-        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-        try {
-            uri?.let { imageUri ->
-                val outputStream = resolver.openOutputStream(imageUri)
-                outputStream?.use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    contentValues.clear()
-                    contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
-                    resolver.update(imageUri, contentValues, null, null)
-                }
-
-                return imageUri
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return null
     }
 
     fun saveImageToDirectory(context: Context, bitmap: Bitmap, fileName: String): Boolean {
         val values = ContentValues()
-        values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName-${getCurrentDateTime("DD-MM-YYYY HH:mm")}")
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
         values.put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/")
 
@@ -338,6 +284,8 @@ class PreviewNewsActivity : ComponentActivity() {
 
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
             fos.close()
+
+            imageUri = uri
 
             toast("Download success $fileName")
             return true
