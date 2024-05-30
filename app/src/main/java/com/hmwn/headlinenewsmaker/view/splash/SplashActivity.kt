@@ -1,19 +1,15 @@
 package com.hmwn.headlinenewsmaker.view.splash
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.window.SplashScreen
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,10 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.hmwn.headlinenewsmaker.ui.theme.HeadlineNewsMakerTheme
 import com.hmwn.headlinenewsmaker.view.MainActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 class SplashActivity : ComponentActivity() {
 
@@ -32,7 +25,7 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            SplashView()
+            InitView()
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -42,25 +35,24 @@ class SplashActivity : ComponentActivity() {
         }, 2000)
 
     }
-}
 
-@Composable
-private fun SplashView() {
+    @Composable
+    fun InitView() {
 
-    Surface(
-        modifier =
-        Modifier.fillMaxSize(),
-        color = Color.White
-    ) {
-        Column(
-            modifier = Modifier
-                .background(Color.White)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        Surface(
+            modifier =
+            Modifier.fillMaxSize(),
+            color = Color.White
         ) {
+            Column(
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
 
-            Text("BREAKING NEWS")
+                Text("BREAKING NEWS")
 
 //            Image(
 //                painter = painterResource(R.drawable.ic_launcher),
@@ -69,16 +61,18 @@ private fun SplashView() {
 //                    .fillMaxSize()
 //                    .align(Alignment.Center),
 //            )
+            }
         }
+
     }
 
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun PreviewSplashScreen() {
-    SplashView()
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//fun PreviewSplashScreen() {
+//    SplashActivity().InitView()
+//}
