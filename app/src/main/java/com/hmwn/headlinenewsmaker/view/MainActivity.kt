@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -82,7 +83,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
     fun InitView() {
@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
             ) {
 
                 Text(
-                    text = this@MainActivity.getString(R.string.app_name).uppercase(),
+                    text = stringResource(R.string.app_name),
                     style = body1Bold,
                     color = PrimaryColor,
                     modifier = Modifier
@@ -162,11 +162,11 @@ class MainActivity : ComponentActivity() {
 
 }
 
-//@Preview(
-//    showSystemUi = true,
-//    showBackground = true
-//)
-//@Composable
-//fun MainActivityPreview() {
-//    MainActivity().InitView()
-//}
+@Preview(
+    showSystemUi = true,
+    showBackground = true
+)
+@Composable
+fun MainActivityPreview() {
+    MainActivity().InitView()
+}

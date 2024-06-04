@@ -37,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,7 +88,7 @@ fun HomeView(context: Context) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = context.getString(R.string.headline),
+                    text = stringResource(R.string.headline),
                     style = h4
                 )
 
@@ -96,7 +97,7 @@ fun HomeView(context: Context) {
                 )
 
                 Text(
-                    text = context.getString(R.string.headline_desc),
+                    text = stringResource(R.string.headline_desc),
                     style = body3
                 )
 
@@ -125,7 +126,7 @@ fun HomeView(context: Context) {
 
             ) {
                 Text(
-                    text = context.getString(R.string.start_create_headline),
+                    text = stringResource(R.string.start_create_headline),
                     textAlign = TextAlign.Center,
                     style = body2Bold,
                     color = Color.White
@@ -137,7 +138,7 @@ fun HomeView(context: Context) {
 
         Text(
             modifier = Modifier.padding(start = 16.dp),
-            text = context.getString(R.string.headline_history),
+            text = stringResource(R.string.headline_history),
             style = body1Medium,
         )
 
@@ -179,7 +180,7 @@ fun HeadlineHistoryList(context: Context, news: List<News>) {
             ) {
 
                 Text(
-                    text = context.getString(R.string.empty_state_title),
+                    text = stringResource(R.string.empty_state_title),
                     color = black2,
                     style = body1Bold
                 )
@@ -187,7 +188,7 @@ fun HeadlineHistoryList(context: Context, news: List<News>) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = context.getString(R.string.empty_state_desc),
+                    text = stringResource(R.string.empty_state_desc),
                     color = black2,
                     style = body2
                 )

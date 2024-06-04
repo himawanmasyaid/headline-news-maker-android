@@ -22,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.ui.theme.black1
 import com.hmwn.headlinenewsmaker.ui.theme.body1Medium
 import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
@@ -44,7 +46,7 @@ fun ToolbarView(title: String, onBackClick: () -> Unit) {
                 IconButton(onBackClick) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back Button"
+                        contentDescription = stringResource(R.string.back_button)
                     )
                 }
             },

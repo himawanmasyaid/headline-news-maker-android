@@ -24,14 +24,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
 import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.ui.theme.FontPrimary
+import com.hmwn.headlinenewsmaker.ui.theme.black1
 import com.hmwn.headlinenewsmaker.ui.theme.body3
 import com.hmwn.headlinenewsmaker.ui.theme.hint
 import com.hmwn.headlinenewsmaker.view.components.ToolbarView
@@ -53,7 +57,6 @@ class CreateNewsActivity : ComponentActivity() {
     }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun InitView() {
 
@@ -66,8 +69,9 @@ class CreateNewsActivity : ComponentActivity() {
             bottomBar = {
                 Button(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(16.dp)
-                        .fillMaxWidth(),
+                    ,
                     onClick = {
 
                         val headline = headlineState.value
@@ -75,7 +79,7 @@ class CreateNewsActivity : ComponentActivity() {
                         val datetime = datetimeState.value
 
                         if (headline.isEmpty() || author.isEmpty() || datetime.isEmpty()) {
-                            toast("Please input data")
+                            toast("please input data")
                         } else {
                             val intent =
                                 Intent(this@CreateNewsActivity, PreviewNewsActivity::class.java)
@@ -88,7 +92,7 @@ class CreateNewsActivity : ComponentActivity() {
                     }
                 ) {
                     Text(
-                        "Create Now",
+                        stringResource(R.string.preview_now),
                         fontSize = 16.sp,
                         fontFamily = FontPrimary,
                         fontWeight = FontWeight.Medium,
@@ -112,7 +116,7 @@ class CreateNewsActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            "Headline",
+                            stringResource(R.string.headline),
                             style = body3,
                             modifier = Modifier
                                 .padding(bottom = 8.dp)
@@ -121,7 +125,7 @@ class CreateNewsActivity : ComponentActivity() {
                         OutlinedTextField(
                             value = headlineState.value,
                             onValueChange = { headlineState.value = it },
-                            placeholder = { Text("Input Headline...", color = hint) },
+                            placeholder = { Text(stringResource(R.string.input_headline), color = hint) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 imeAction = ImeAction.Next
@@ -131,7 +135,7 @@ class CreateNewsActivity : ComponentActivity() {
                         )
 
                         Text(
-                            "Author",
+                            stringResource(R.string.author),
                             style = body3,
                             modifier = Modifier
                                 .padding(bottom = 8.dp, top = 16.dp)
@@ -140,7 +144,7 @@ class CreateNewsActivity : ComponentActivity() {
                         OutlinedTextField(
                             value = authorState.value,
                             onValueChange = { authorState.value = it },
-                            placeholder = { Text("Input Author...", color = hint) },
+                            placeholder = { Text(stringResource(R.string.input_author), color = hint) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 imeAction = ImeAction.Done
@@ -150,7 +154,7 @@ class CreateNewsActivity : ComponentActivity() {
                         )
 
                         Text(
-                            "Datetime",
+                            stringResource(R.string.datetime),
                             style = body3,
                             modifier = Modifier
                                 .padding(bottom = 8.dp, top = 16.dp)
@@ -159,7 +163,7 @@ class CreateNewsActivity : ComponentActivity() {
                         OutlinedTextField(
                             value = datetimeState.value,
                             onValueChange = { datetimeState.value = it },
-                            placeholder = { Text("Datetime", color = hint) },
+                            placeholder = { Text(stringResource(R.string.input_datetime), color = hint) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 imeAction = ImeAction.Send
@@ -180,11 +184,11 @@ class CreateNewsActivity : ComponentActivity() {
 
 }
 
-//@Preview(
-//    showSystemUi = true,
-//    showBackground = true
-//)
-//@Composable
-//fun PreviewSplashScreen() {
-//    CreateNewsActivity().CreateNewsView()
-//}
+@Preview(
+    showSystemUi = true,
+    showBackground = true
+)
+@Composable
+fun PreviewSplashScreen() {
+    CreateNewsActivity().InitView()
+}

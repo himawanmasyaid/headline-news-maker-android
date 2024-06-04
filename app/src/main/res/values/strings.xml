@@ -2,11 +2,25 @@
     <string name="app_name">Headline Maker</string>
     <string name="tagline">For Fun</string>
 
-    <string name="headline">What Headline Will\nYou Craft Today</string>
+    <string name="back_button">Back Button</string>
+
+    <string name="headline_title">What Headline Will\nYou Craft Today</string>
     <string name="headline_desc">makes it easy to create headline\ndesign and share or print them</string>
     <string name="start_create_headline">Start Create Headline</string>
     <string name="headline_history">Headline History</string>
 
+    <!-- Create News  -->
+    <string name="headline">Headline</string>
+    <string name="input_headline">Input Headline...</string>
+    <string name="author">Author</string>
+    <string name="input_author">Input Author...</string>
+    <string name="datetime">Datetime</string>
+    <string name="input_datetime">Input Datetime...</string>
+
+    <!-- Common  -->
+    <string name="create_now">Create Now</string>
+    <string name="preview_now">Preview Now</string>
+    <string name="please_input_data">Please input data</string>
     <string name="empty_state_title">Create Your First Headline</string>
     <string name="empty_state_desc">Time to be a news maker.\nWrite your first headline now.</string>
 
