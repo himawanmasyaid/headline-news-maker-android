@@ -1,6 +1,7 @@
 package com.hmwn.headlinenewsmaker.data.local
 
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hmwn.headlinenewsmaker.data.local.dao.HeadlineNewsDao
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity

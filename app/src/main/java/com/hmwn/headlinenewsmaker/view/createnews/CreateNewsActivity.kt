@@ -1,7 +1,9 @@
 package com.hmwn.headlinenewsmaker.view.createnews
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -34,14 +36,22 @@ import androidx.compose.ui.unit.sp
 import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
 import com.hmwn.headlinenewsmaker.common.toast
+import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
+import com.hmwn.headlinenewsmaker.repo.HeadlineNewsRepository
 import com.hmwn.headlinenewsmaker.ui.theme.FontPrimary
 import com.hmwn.headlinenewsmaker.ui.theme.black1
 import com.hmwn.headlinenewsmaker.ui.theme.body3
 import com.hmwn.headlinenewsmaker.ui.theme.hint
 import com.hmwn.headlinenewsmaker.view.components.ToolbarView
+import com.hmwn.headlinenewsmaker.view.main.MainViewModel
 import com.hmwn.headlinenewsmaker.view.preview.PreviewNewsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
+import java.io.FileOutputStream
 
 class CreateNewsActivity : ComponentActivity() {
+
+    private val viewModel by viewModel<CreateNewsViewModel>()
 
     val headlineState = mutableStateOf("")
     val authorState = mutableStateOf("")
@@ -49,6 +59,8 @@ class CreateNewsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        startObserveData()
 
         setContent {
             InitView()
@@ -70,8 +82,7 @@ class CreateNewsActivity : ComponentActivity() {
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                    ,
+                        .padding(16.dp),
                     onClick = {
 
                         val headline = headlineState.value
@@ -81,12 +92,15 @@ class CreateNewsActivity : ComponentActivity() {
                         if (headline.isEmpty() || author.isEmpty() || datetime.isEmpty()) {
                             toast("please input data")
                         } else {
-                            val intent =
-                                Intent(this@CreateNewsActivity, PreviewNewsActivity::class.java)
-                            intent.putExtra(PreviewNewsActivity.HEADLINE_ARG, headline)
-                            intent.putExtra(PreviewNewsActivity.AUTHOR_ARG, author)
-                            intent.putExtra(PreviewNewsActivity.DATETIME_ARG, datetime)
-                            startActivity(intent)
+
+                            viewModel.insertHeadline(
+                                HeadlineNewsEntity(
+                                    headline = headline,
+                                    author = author,
+                                    datetime = datetime,
+                                    image = "",
+                                )
+                            )
                         }
 
                     }
@@ -125,7 +139,12 @@ class CreateNewsActivity : ComponentActivity() {
                         OutlinedTextField(
                             value = headlineState.value,
                             onValueChange = { headlineState.value = it },
-                            placeholder = { Text(stringResource(R.string.input_headline), color = hint) },
+                            placeholder = {
+                                Text(
+                                    stringResource(R.string.input_headline),
+                                    color = hint
+                                )
+                            },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 imeAction = ImeAction.Next
@@ -144,7 +163,12 @@ class CreateNewsActivity : ComponentActivity() {
                         OutlinedTextField(
                             value = authorState.value,
                             onValueChange = { authorState.value = it },
-                            placeholder = { Text(stringResource(R.string.input_author), color = hint) },
+                            placeholder = {
+                                Text(
+                                    stringResource(R.string.input_author),
+                                    color = hint
+                                )
+                            },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 imeAction = ImeAction.Done
@@ -163,7 +187,12 @@ class CreateNewsActivity : ComponentActivity() {
                         OutlinedTextField(
                             value = datetimeState.value,
                             onValueChange = { datetimeState.value = it },
-                            placeholder = { Text(stringResource(R.string.input_datetime), color = hint) },
+                            placeholder = {
+                                Text(
+                                    stringResource(R.string.input_datetime),
+                                    color = hint
+                                )
+                            },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 imeAction = ImeAction.Send
@@ -175,6 +204,25 @@ class CreateNewsActivity : ComponentActivity() {
                 }
             }
         )
+
+    }
+
+    private fun startObserveData() {
+
+
+        viewModel.headlinesCreateState.observe(this) {
+
+            val headline = headlineState.value
+            val author = authorState.value
+            val datetime = datetimeState.value
+
+            val intent =
+                Intent(this@CreateNewsActivity, PreviewNewsActivity::class.java)
+            intent.putExtra(PreviewNewsActivity.HEADLINE_ARG, headline)
+            intent.putExtra(PreviewNewsActivity.AUTHOR_ARG, author)
+            intent.putExtra(PreviewNewsActivity.DATETIME_ARG, datetime)
+            startActivity(intent)
+        }
 
     }
 

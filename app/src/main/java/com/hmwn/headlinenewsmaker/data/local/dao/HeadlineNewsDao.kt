@@ -11,7 +11,7 @@ import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 interface HeadlineNewsDao {
 
     @Insert
-    suspend fun insertArticle(article: HeadlineNewsEntity)
+    suspend fun insertArticle(article: HeadlineNewsEntity) : Long
 
     @Query("SELECT * FROM headline_news")
     suspend fun getAllHeadlineNews(): List<HeadlineNewsEntity>

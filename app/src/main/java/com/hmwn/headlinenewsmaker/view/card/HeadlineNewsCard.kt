@@ -1,5 +1,7 @@
 package com.hmwn.headlinenewsmaker.view.card
 
+import android.content.Context
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.data.model.News
 import com.hmwn.headlinenewsmaker.ui.theme.black1
 import com.hmwn.headlinenewsmaker.ui.theme.black3
@@ -37,9 +40,11 @@ import com.hmwn.headlinenewsmaker.ui.theme.body3
 import com.hmwn.headlinenewsmaker.ui.theme.body4
 import com.hmwn.headlinenewsmaker.ui.theme.h1
 import com.hmwn.headlinenewsmaker.ui.theme.h7
+import java.io.File
+import java.io.FileOutputStream
 
 @Composable
-fun HeadlineNewsCard(news: News) {
+fun HeadlineNewsCard(news: HeadlineNewsEntity) {
 
     Column(
     ) {
@@ -79,6 +84,23 @@ fun HeadlineNewsCard(news: News) {
 
         Spacer(modifier = Modifier.height(6.dp))
 
+
+        // show image
+//        Image(
+//            bitmap = loadBitmapFromStorage(article.image),
+//            contentDescription = null
+//        )
+
+    }
+
+
+    fun saveImageToStorage(image: Bitmap, context: Context): String {
+        val directory = context.getExternalFilesDir(null)
+        val file = File(directory, "image_${System.currentTimeMillis()}.jpg")
+        val outputStream = FileOutputStream(file)
+        image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.close()
+        return file.path
     }
 
 }
