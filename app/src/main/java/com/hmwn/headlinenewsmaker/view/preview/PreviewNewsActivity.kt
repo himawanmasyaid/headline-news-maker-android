@@ -33,9 +33,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,8 +54,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
+import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
+import com.hmwn.headlinenewsmaker.view.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -58,7 +74,7 @@ class PreviewNewsActivity : ComponentActivity() {
     private var datetime = ""
     private lateinit var currentView: View
     private var currentDensity: Float = 0.0f
-    private var imageUri : Uri? = null
+    private var imageUri: Uri? = null
 
     companion object {
         const val HEADLINE_ARG = "headline"
@@ -93,67 +109,114 @@ class PreviewNewsActivity : ComponentActivity() {
         var isButtonVisible by remember { mutableStateOf(true) }
         val context = LocalContext.current
 
-        Scaffold(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.Black),
-            bottomBar = {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color.Black
+        ) {
 
-                if (isButtonVisible) {
+            Scaffold(
+                modifier = Modifier
+                    .background(Color.Black)
+                    .fillMaxWidth()
+                    .fillMaxSize(),
+                topBar = {
 
-                    Box() {
-                        Button(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            onClick = {
+                    if (isButtonVisible) {
 
-                                isButtonVisible = false
-
-                                if (imageUri == null) {
-                                    toast("Loading ...")
-                                }
-
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    delay(500) // Simulate loading delay for 2 seconds
-                                    withContext(Dispatchers.Main) {
-                                        if (imageUri == null) {
-                                            convertViewToBitmap(context, currentView, currentDensity)
-                                            delay(500)
-                                            isButtonVisible = true
-                                        } else {
-                                            openImageInGallery(imageUri)
-                                        }
-
-                                    }
-                                }
+                            FilledIconButton(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                ,
+                                colors = IconButtonColors(
+                                    containerColor = Color.White,
+                                    contentColor = Color.White,
+                                    disabledContainerColor = Color.White,
+                                    disabledContentColor = Color.White,
+                                ),
+                                onClick = {
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                    startActivity(intent)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    tint = Color.Black,
+                                    contentDescription = stringResource(R.string.back_button)
+                                )
                             }
-                        ) {
-                            Text(
-                                if (imageUri == null) "Download Image" else "Open Image",
-                                fontSize = 16.sp,
-                                fontFamily = FontPrimary,
-                                fontWeight = FontWeight.Medium,
-                                modifier = Modifier.padding(top = 6.dp, bottom = 6.dp)
-                            )
-                        }
+
                     }
 
-                }
+                },
 
-            },
-            content = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black),
-                    contentAlignment = Alignment.Center
-                ) {
-                    HeadlinePreviewView()
-                }
+                bottomBar = {
 
-            }
-        )
+                    if (isButtonVisible) {
+
+                        Box() {
+                            Button(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = PrimaryColor,
+                                    contentColor = PrimaryColor
+                                ),
+                                onClick = {
+
+                                    isButtonVisible = false
+
+                                    if (imageUri == null) {
+                                        toast("Loading ...")
+                                    }
+
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        delay(500) // Simulate loading delay for 2 seconds
+                                        withContext(Dispatchers.Main) {
+                                            if (imageUri == null) {
+                                                convertViewToBitmap(
+                                                    context,
+                                                    currentView,
+                                                    currentDensity
+                                                )
+                                                delay(500)
+                                                isButtonVisible = true
+                                            } else {
+                                                openImageInGallery(imageUri)
+                                            }
+
+                                        }
+                                    }
+                                }
+                            ) {
+                                Text(
+                                    if (imageUri == null) "Download Image" else "Open Image",
+                                    fontSize = 16.sp,
+                                    fontFamily = FontPrimary,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(top = 6.dp, bottom = 6.dp)
+                                )
+                            }
+                        }
+
+                    }
+
+                },
+                content = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        HeadlinePreviewView()
+                    }
+                }
+            )
+
+        }
+
     }
 
     @Composable
@@ -201,6 +264,8 @@ class PreviewNewsActivity : ComponentActivity() {
 
     private fun convertViewToBitmap(context: Context, view: View, density: Float) {
 
+        setLog("convertViewToBitmap")
+
         // Get display metrics to calculate scale
         val displayMetrics = DisplayMetrics()
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -213,16 +278,8 @@ class PreviewNewsActivity : ComponentActivity() {
         val scaledWidth = (view.width * scale).toInt()
         val scaledHeight = (view.height * scale).toInt()
 
-        // crop button
-        val percent = (scaledHeight * 10) / 100
-        val customScale: Int = scaledHeight - percent
-
-        // Custom a Bitmap of the scaled size
-//        val bitmap = Bitmap.createBitmap(
-//            scaledWidth,
-//            customScale,
-//            Bitmap.Config.ARGB_8888
-//        )
+        // hold
+//        val bitmapCrop = cropScreenImage(scaledHeight, scaledWidth)
 
         // Create a Bitmap of the scaled size
         val bitmap = Bitmap.createBitmap(
@@ -242,6 +299,21 @@ class PreviewNewsActivity : ComponentActivity() {
 
     }
 
+    private fun cropScreenImage(scaledHeight: Int, scaledWidth: Int) : Bitmap {
+        // crop button
+        val percent = (scaledHeight * 10) / 100
+        val customScale: Int = scaledHeight - percent
+
+        // Custom a Bitmap of the scaled size
+        val bitmap = Bitmap.createBitmap(
+            scaledWidth,
+            customScale,
+            Bitmap.Config.ARGB_8888
+        )
+
+        return bitmap
+    }
+
     fun openImageInGallery(uri: Uri?) {
 
         if (uri != null) {
@@ -255,7 +327,10 @@ class PreviewNewsActivity : ComponentActivity() {
 
     fun saveImageToDirectory(context: Context, bitmap: Bitmap, fileName: String): Boolean {
         val values = ContentValues()
-        values.put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName-${getCurrentDateTime("DD-MM-YYYY HH:mm")}")
+        values.put(
+            MediaStore.MediaColumns.DISPLAY_NAME,
+            "$fileName-${getCurrentDateTime("DD-MM-YYYY HH:mm")}"
+        )
         values.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
         values.put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/")
 
@@ -287,11 +362,10 @@ class PreviewNewsActivity : ComponentActivity() {
 
 }
 
-//@Preview(
-//    showSystemUi = true,
-//    showBackground = true
-//)
-//@Composable
-//private fun PreviewScreen() {
-//    PreviewNewsActivity().MainView()
-//}
+@Preview(
+    showBackground = true
+)
+@Composable
+private fun PreviewScreen() {
+    PreviewNewsActivity().InitView()
+}

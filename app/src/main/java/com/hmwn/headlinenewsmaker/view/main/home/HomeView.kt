@@ -77,7 +77,7 @@ fun HomeView(context: Context, viewModel: MainViewModel) {
 
         Spacer(modifier = Modifier.height(18.dp))
 
-        HeadlineHistoryList(headlines)
+        HeadlineHistoryList(context, headlines)
 
     }
 
@@ -147,7 +147,7 @@ private fun HeaderView(context: Context) {
 }
 
 @Composable
-fun HeadlineHistoryList(headlines: List<HeadlineNewsEntity>) {
+fun HeadlineHistoryList(context: Context, headlines: List<HeadlineNewsEntity>) {
 
     Box(
         modifier = Modifier
@@ -189,7 +189,7 @@ fun HeadlineHistoryList(headlines: List<HeadlineNewsEntity>) {
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 items(headlines) {
-                    HeadlineNewsCard(it)
+                    HeadlineNewsCard(context,it)
                 }
             }
         }
