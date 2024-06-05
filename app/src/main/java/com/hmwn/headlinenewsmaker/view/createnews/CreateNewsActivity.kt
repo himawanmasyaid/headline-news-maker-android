@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -39,6 +40,7 @@ import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.repo.HeadlineNewsRepository
 import com.hmwn.headlinenewsmaker.ui.theme.FontPrimary
+import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.black1
 import com.hmwn.headlinenewsmaker.ui.theme.body3
 import com.hmwn.headlinenewsmaker.ui.theme.hint
@@ -83,6 +85,10 @@ class CreateNewsActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = PrimaryColor,
+                        contentColor = PrimaryColor
+                    ),
                     onClick = {
 
                         val headline = headlineState.value
@@ -110,6 +116,7 @@ class CreateNewsActivity : ComponentActivity() {
                         fontSize = 16.sp,
                         fontFamily = FontPrimary,
                         fontWeight = FontWeight.Medium,
+                        color = Color.White,
                         modifier = Modifier.padding(top = 6.dp, bottom = 6.dp)
                     )
                 }
