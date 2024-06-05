@@ -6,16 +6,23 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.view.main.MainActivity
 
 class SplashActivity : ComponentActivity() {
@@ -51,15 +58,14 @@ class SplashActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Center
             ) {
 
-                Text("BREAKING NEWS")
 
-//            Image(
-//                painter = painterResource(R.drawable.ic_launcher),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .align(Alignment.Center),
-//            )
+                val image = painterResource(R.drawable.ic_logo_hnm)
+                Image(
+                    painter = image,
+                    contentDescription = "logo",
+                    modifier = Modifier
+                        .size(100.dp),
+                )
             }
         }
 
@@ -67,11 +73,11 @@ class SplashActivity : ComponentActivity() {
 
 }
 
-//@Preview(
-//    showSystemUi = true,
-//    showBackground = true
-//)
-//@Composable
-//fun PreviewSplashScreen() {
-//    SplashActivity().InitView()
-//}
+@Preview(
+    showSystemUi = true,
+    showBackground = true
+)
+@Composable
+fun PreviewSplashScreen() {
+    SplashActivity().InitView()
+}
