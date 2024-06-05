@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -29,6 +31,7 @@ import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.data.model.News
 import com.hmwn.headlinenewsmaker.ui.theme.black1
+import com.hmwn.headlinenewsmaker.ui.theme.black2
 import com.hmwn.headlinenewsmaker.ui.theme.black3
 import com.hmwn.headlinenewsmaker.ui.theme.black4
 import com.hmwn.headlinenewsmaker.ui.theme.black5
@@ -36,7 +39,10 @@ import com.hmwn.headlinenewsmaker.ui.theme.body1
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
 import com.hmwn.headlinenewsmaker.ui.theme.body1Medium
 import com.hmwn.headlinenewsmaker.ui.theme.body2
+import com.hmwn.headlinenewsmaker.ui.theme.body2Bold
+import com.hmwn.headlinenewsmaker.ui.theme.body2Medium
 import com.hmwn.headlinenewsmaker.ui.theme.body3
+import com.hmwn.headlinenewsmaker.ui.theme.body3Bold
 import com.hmwn.headlinenewsmaker.ui.theme.body4
 import com.hmwn.headlinenewsmaker.ui.theme.h1
 import com.hmwn.headlinenewsmaker.ui.theme.h7
@@ -47,9 +53,10 @@ import java.io.FileOutputStream
 fun HeadlineNewsCard(news: HeadlineNewsEntity) {
 
     Column(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     ) {
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = news.headline,
@@ -59,19 +66,34 @@ fun HeadlineNewsCard(news: HeadlineNewsEntity) {
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        Text(
-            text = news.author,
-            style = body1Medium,
-            color = black1
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text = news.author,
+                style = body2Medium,
+                color = black2
+            )
 
-        Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
-        Text(
-            text = news.datetime,
-            style = body3,
-            color = black3
-        )
+            Text(
+                text = "-",
+                style = body2Medium,
+                color = black2
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = news.datetime,
+                style = body2Medium,
+                color = black2
+            )
+
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -83,7 +105,6 @@ fun HeadlineNewsCard(news: HeadlineNewsEntity) {
         )
 
         Spacer(modifier = Modifier.height(6.dp))
-
 
         // show image
 //        Image(

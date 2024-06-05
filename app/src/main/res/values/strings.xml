@@ -24,4 +24,9 @@
     <string name="empty_state_title">Create Your First Headline</string>
     <string name="empty_state_desc">Time to be a news maker.\nWrite your first headline now.</string>
 
+    <!-- Sample  -->
+    <string name="headline_title_sample">A software engineer worked at Tesla, SAP, and Salesforce. Here\'s how he negotiated his salary, including a $520,000 Meta offer.</string>
+    <string name="author_sample">Himawan</string>
+    <string name="date_sample">5 june 2024</string>
+
 </resources>

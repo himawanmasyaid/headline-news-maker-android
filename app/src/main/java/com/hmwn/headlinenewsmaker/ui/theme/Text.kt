@@ -88,6 +88,12 @@ val body2 = TextStyle(
     color = black1,
 )
 
+val body2Medium = TextStyle(
+    fontSize = 14.sp,
+    fontFamily = FontFamily(poppinsMedium),
+    color = black1,
+)
+
 val body2Bold = TextStyle(
     fontSize = 14.sp,
     fontFamily = FontFamily(poppinsBold),
@@ -97,6 +103,12 @@ val body2Bold = TextStyle(
 val body3 = TextStyle(
     fontSize = 12.sp,
     fontFamily = FontFamily(poppinsRegular),
+    color = black1,
+)
+
+val body3Medium = TextStyle(
+    fontSize = 12.sp,
+    fontFamily = FontFamily(poppinsMedium),
     color = black1,
 )
 

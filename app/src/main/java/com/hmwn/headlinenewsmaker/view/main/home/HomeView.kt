@@ -32,8 +32,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.data.local.LocalDatabase
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.data.model.News
+import com.hmwn.headlinenewsmaker.repo.HeadlineNewsRepository
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.SoftPrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.black2
@@ -46,6 +48,7 @@ import com.hmwn.headlinenewsmaker.ui.theme.h4
 import com.hmwn.headlinenewsmaker.view.card.HeadlineNewsCard
 import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
 import com.hmwn.headlinenewsmaker.view.main.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileInputStream
 
@@ -61,65 +64,8 @@ fun HomeView(context: Context, viewModel: MainViewModel) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Box(
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .background(SoftPrimaryColor)
-                    .fillMaxWidth()
-                    .padding(top = 21.dp, bottom = 38.dp, start = 16.dp, end = 16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = stringResource(R.string.headline),
-                    style = h4
-                )
 
-                Spacer(
-                    modifier = Modifier.height(10.dp)
-                )
-
-                Text(
-                    text = stringResource(R.string.headline_desc),
-                    style = body3
-                )
-
-            }
-
-
-            Button(
-                onClick = {
-                    context.startActivity(Intent(context, CreateNewsActivity::class.java))
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = PrimaryColor,
-                    contentColor = PrimaryColor
-                ),
-                modifier = Modifier
-                    .padding(
-                        start = 16.dp, end = 16.dp,
-                    )
-                    .background(
-                        PrimaryColor,
-                        shape = RoundedCornerShape(30.dp)
-                    ) // Set rounded corners
-                    .height(50.dp)
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-
-            ) {
-                Text(
-                    text = stringResource(R.string.start_create_headline),
-                    textAlign = TextAlign.Center,
-                    style = body2Bold,
-                    color = Color.White
-                ) // Center text
-            }
-        }
+        HeaderView(context)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -138,6 +84,69 @@ fun HomeView(context: Context, viewModel: MainViewModel) {
 }
 
 @Composable
+private fun HeaderView(context: Context) {
+    Box(
+        modifier = Modifier
+            .height(220.dp)
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .background(SoftPrimaryColor)
+                .height(200.dp)
+                .fillMaxWidth()
+                .padding(top = 24.dp, start = 16.dp, end = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(R.string.headline_title),
+                style = h4
+            )
+
+            Spacer(
+                modifier = Modifier.height(10.dp)
+            )
+
+            Text(
+                text = stringResource(R.string.headline_desc),
+                style = body3
+            )
+
+        }
+
+        Button(
+            onClick = {
+                context.startActivity(Intent(context, CreateNewsActivity::class.java))
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = PrimaryColor,
+                contentColor = PrimaryColor
+            ),
+            modifier = Modifier
+                .padding(
+                    start = 16.dp, end = 16.dp,
+                )
+                .background(
+                    PrimaryColor,
+                    shape = RoundedCornerShape(30.dp)
+                ) // Set rounded corners
+                .height(50.dp)
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+
+        ) {
+            Text(
+                text = stringResource(R.string.start_create_headline),
+                textAlign = TextAlign.Center,
+                style = body2Bold,
+                color = Color.White
+            ) // Center text
+        }
+    }
+}
+
+@Composable
 fun HeadlineHistoryList(headlines: List<HeadlineNewsEntity>) {
 
     Box(
@@ -151,9 +160,9 @@ fun HeadlineHistoryList(headlines: List<HeadlineNewsEntity>) {
 
             Column(
                 modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .padding(start = 16.dp, end = 16.dp)
                 ,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -194,3 +203,26 @@ fun HeadlineHistoryList(headlines: List<HeadlineNewsEntity>) {
     }
 
 }
+
+
+//@Preview(showBackground = true)
+//@Composable
+//fun HomePreview() {
+//
+//    HeaderView(LocalContext.current)
+//
+////    HeadlineHistoryList(
+////        listOf(
+////            HeadlineNewsEntity(
+////                stringResource(R.string.headline_title_sample),
+////                stringResource(R.string.author_sample),
+////                stringResource(R.string.date_sample),
+////            ),
+////            HeadlineNewsEntity(
+////                stringResource(R.string.headline_title_sample),
+////                stringResource(R.string.author_sample),
+////                stringResource(R.string.date_sample),
+////            )
+////        )
+////    )
+//}

@@ -6,8 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "headline_news")
 data class HeadlineNewsEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
     @ColumnInfo(name = "headline")
     val headline: String,
     @ColumnInfo(name = "author")
@@ -15,5 +13,7 @@ data class HeadlineNewsEntity(
     @ColumnInfo(name = "datetime")
     val datetime: String,
     @ColumnInfo(name = "image")
-    val image: String
+    val image: String = "",
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
 )
