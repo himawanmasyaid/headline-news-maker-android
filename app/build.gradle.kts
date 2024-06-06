@@ -12,7 +12,7 @@ android {
         applicationId = "com.hmwn.headlinenewsmaker"
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "0.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
