@@ -233,10 +233,6 @@ class CreateNewsActivity : ComponentActivity() {
 
     }
 
-    private fun setLog(msg: String) {
-        Log.e("create", msg)
-    }
-
 }
 
 @Preview(
