@@ -1,6 +1,7 @@
 package com.hmwn.headlinenewsmaker.view.preview
 
 import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
@@ -17,16 +18,85 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import android.graphics.Color;
+import android.system.Os.remove
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.viewbinding.ViewBinding
+import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
+import com.hmwn.headlinenewsmaker.common.toast
+import com.hmwn.headlinenewsmaker.data.Constants.PATH_DEFAULT
+import com.hmwn.headlinenewsmaker.databinding.ActivityPreviewBinding
+import com.hmwn.headlinenewsmaker.databinding.ViewTemplateLandscapeCnnBinding
 
 
 class PreviewActivity : AppCompatActivity() {
 
-    private val TAG = "SAVE_BITMAP"
+    private val binding by lazy {
+        ActivityPreviewBinding.inflate(layoutInflater)
+    }
+
+    companion object {
+        const val HEADLINE_ARG = "headline"
+        const val AUTHOR_ARG = "author"
+        const val DESCRIPTION_ARG = "description"
+        const val DATETIME_ARG = "datetime"
+        const val MIME_TYPE_PNG = "image/png"
+    }
+
+    val headline by lazy {
+        intent.getStringExtra(HEADLINE_ARG) ?: ""
+    }
+
+    val author by lazy {
+        intent.getStringExtra(AUTHOR_ARG) ?: ""
+    }
+
+    val description by lazy {
+        intent.getStringExtra(DESCRIPTION_ARG) ?: ""
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_preview)
+        setContentView(binding.root)
+
+        initView()
+        initListener()
+
+    }
+
+    private fun initView() {
+
+        with(binding) {
+
+            val template = ViewTemplateLandscapeCnnBinding.inflate(layoutInflater)
+
+            includedLayout.root.removeAllViews()
+            includedLayout.root.addView(template.root)
+
+            with(template) {
+                tvHeadline.text = headline ?: ""
+                tvDescription.text = description ?: ""
+            }
+
+        }
+
+    }
+
+    private fun initListener() {
+
+        with(binding) {
+
+            btnBack.setOnClickListener {
+                finish()
+            }
+
+            btnDownload.setOnClickListener {
+                val bitmap = getBitmapFromUiView(includedLayout.root)
+                saveBitmapImage(bitmap, headline)
+            }
+
+        }
 
     }
 
@@ -58,7 +128,7 @@ class PreviewActivity : AppCompatActivity() {
     /**Save Bitmap To Gallery
      * @param bitmap The bitmap to be saved in Storage/Gallery
      */
-    private fun saveBitmapImage(bitmap: Bitmap) {
+    private fun saveBitmapImage(bitmap: Bitmap, fileName: String) {
         val timestamp = System.currentTimeMillis()
 
         //Tell the media scanner about the new file so that it is immediately available to the user.
@@ -70,7 +140,7 @@ class PreviewActivity : AppCompatActivity() {
             values.put(MediaStore.Images.Media.DATE_TAKEN, timestamp)
             values.put(
                 MediaStore.Images.Media.RELATIVE_PATH,
-                "Pictures/" + getString(R.string.app_name)
+                "Pictures/" + PATH_DEFAULT
             )
             values.put(MediaStore.Images.Media.IS_PENDING, true)
             val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
@@ -82,26 +152,26 @@ class PreviewActivity : AppCompatActivity() {
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                             outputStream.close()
                         } catch (e: Exception) {
-                            Log.e(TAG, "saveToGallery: ", e)
+                            toast(getString(R.string.download_failed))
                         }
                     }
                     values.put(MediaStore.Images.Media.IS_PENDING, false)
                     contentResolver.update(uri, values, null, null)
 
-                    Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
+                    toast(getString(R.string.download_success))
                 } catch (e: Exception) {
-                    Log.e(TAG, "saveToGallery: ", e)
+                    toast(getString(R.string.download_failed))
                 }
             }
         } else {
             val imageFileFolder = File(
                 Environment.getExternalStorageDirectory()
-                    .toString() + '/' + getString(R.string.app_name)
+                    .toString() + '/' + PATH_DEFAULT
             )
             if (!imageFileFolder.exists()) {
                 imageFileFolder.mkdirs()
             }
-            val mImageName = "$timestamp.png"
+            val mImageName = "$fileName-${getCurrentDateTime("DD-MM-YYYY HH:mm")}.png"
 
             val imageFile = File(imageFileFolder, mImageName)
             try {
@@ -110,14 +180,14 @@ class PreviewActivity : AppCompatActivity() {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                     outputStream.close()
                 } catch (e: Exception) {
-                    Log.e(TAG, "saveToGallery: ", e)
+                    toast(getString(R.string.download_failed))
                 }
                 values.put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
                 contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
 
-                Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
+                toast(getString(R.string.download_success))
             } catch (e: Exception) {
-                Log.e(TAG, "saveToGallery: ", e)
+                toast(getString(R.string.download_failed))
             }
         }
     }

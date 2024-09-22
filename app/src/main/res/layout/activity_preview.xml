@@ -5,6 +5,48 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.preview.PreviewActivity">
+    tools:context=".view.preview.PreviewActivity"
+    android:background="@android:color/black"
+    >
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_close_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/containerEditorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/black"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="24dp"
+        >
+
+        <include
+            android:id="@+id/includedLayout"
+            layout="@layout/view_template_landscape_bbc"
+            />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDownload"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"
+        android:text="@string/download"
+        style="@style/buttonPrimary"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

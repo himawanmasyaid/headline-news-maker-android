@@ -11,13 +11,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo_hnm_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HeadlineNewsMaker"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
             android:name=".view.headline.CreateHeadlineActivity"
+            android:theme="@style/AppTheme"
             android:exported="false" />
         <activity
             android:name=".view.preview.PreviewActivity"
+            android:theme="@style/AppTheme"
             android:exported="false" />
         <activity
             android:name=".view.splash.SplashActivity"
