@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    val PrimaryColor = Color(0xFF0B5AAB)
+    val SoftPrimaryColor = Color(0xFFECF9FF)
+
+    <color name="primary">#0B5AAB</color>
+    <color name="soft_primary">#ECF9FF</color>
+    <color name="statusBarColor">#121212</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,7 +15,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#60E9FF</color>
+
+    <color name="celestial_blue">#48a4d9</color>
+    <color name="pale_bluze_lily">#d3eff5</color>
+
 
     <color name="black1">#333333</color>
     <color name="black2">#4F4F4F</color>
@@ -15,5 +26,8 @@
     <color name="black4">#BDBDBD</color>
     <color name="black5">#E0E0E0</color>
     <color name="black6">#F2F2F2</color>
+
+    <!--  news primary color  -->
+    <color name="cnn_primary_color">#cc0000</color>
 
 </resources>
