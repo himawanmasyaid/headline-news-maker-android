@@ -125,6 +125,10 @@
         <item name="android:textSize">8sp</item>
     </style>
 
+    <style name="TextParagraph5.Medium" parent="TextParagraph5">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
     <style name="TextParagraph6" parent="Regular">
         <item name="android:textSize">6sp</item>
     </style>
