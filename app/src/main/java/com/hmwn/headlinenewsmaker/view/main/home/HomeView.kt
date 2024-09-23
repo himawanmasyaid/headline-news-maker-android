@@ -47,6 +47,7 @@ import com.hmwn.headlinenewsmaker.ui.theme.body3
 import com.hmwn.headlinenewsmaker.ui.theme.h4
 import com.hmwn.headlinenewsmaker.view.card.HeadlineNewsCard
 import com.hmwn.headlinenewsmaker.view.createnews.CreateNewsActivity
+import com.hmwn.headlinenewsmaker.view.headline.CreateHeadlineActivity
 import com.hmwn.headlinenewsmaker.view.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -117,7 +118,7 @@ private fun HeaderView(context: Context) {
 
         Button(
             onClick = {
-                context.startActivity(Intent(context, CreateNewsActivity::class.java))
+                context.startActivity(Intent(context, CreateHeadlineActivity::class.java))
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = PrimaryColor,
