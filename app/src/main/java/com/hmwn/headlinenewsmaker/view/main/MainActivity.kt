@@ -1,9 +1,11 @@
 package com.hmwn.headlinenewsmaker.view.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,119 +25,151 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.databinding.ActivityMainBinding
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
+import com.hmwn.headlinenewsmaker.view.headline.CreateHeadlineActivity
 import com.hmwn.headlinenewsmaker.view.main.home.HomeView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
+        initView()
+        initListener()
         startObserveData()
         viewModel.getHeadlineNews()
 
-        setContent {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                InitView()
-            }
+    }
+
+    private fun initView() {
+
+        with(binding) {
+
         }
 
     }
 
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @Composable
-    fun InitView() {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                AppBarView()
-            },
-            content = {
+    private fun initListener() {
 
-                Column(
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(it)
-                    ) {
-                        HomeView(this@MainActivity, viewModel)
-                    }
+        with(binding) {
 
-                }
-
+            btnAdd.setOnClickListener {
+                startActivity(Intent(this@MainActivity, CreateHeadlineActivity::class.java))
             }
-        )
+
+        }
+
     }
 
     private fun startObserveData() {
 
+
+
     }
 
-    @Composable
-    fun AppBarView() {
-        Surface(shadowElevation = 2.dp) {
+}
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
+//    setContent {
+//        Surface(
+//            modifier = Modifier.fillMaxSize(),
+//        ) {
+//            InitView()
+//        }
+//    }
 
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = body1Bold,
-                    color = PrimaryColor,
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                )
-
-                // hold feature
-//                    Row() {
-//                        IconButton(
-//                            onClick = {
+//    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+//    @Composable
+//    fun InitView() {
+//        Scaffold(
+//            modifier = Modifier.fillMaxSize(),
+//            topBar = {
+//                AppBarView()
+//            },
+//            content = {
 //
-//                            }) {
-//                            Icon(
-//                                imageVector = Icons.Filled.Share,
-//                                contentDescription = "Share",
-//                                tint = Color.Black
-//                            )
-//                        }
-//
-//                        IconButton(onClick = {
-//
-//                        }) {
-//                            Icon(
-//                                imageVector = Icons.Filled.Settings,
-//                                contentDescription = "Settings",
-//                                tint = Color.Black
-//                            )
-//                        }
+//                Column(
+//                ) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .fillMaxHeight()
+//                            .padding(it)
+//                    ) {
+//                        HomeView(this@MainActivity, viewModel)
 //                    }
+//
+//                }
+//
+//            }
+//        )
+//    }
 
-            }
+//    @Composable
+//    fun AppBarView() {
+//        Surface(shadowElevation = 2.dp) {
+//
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(50.dp)
+//                    .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.Start
+//            ) {
+//
+//                Text(
+//                    text = stringResource(R.string.app_name),
+//                    style = body1Bold,
+//                    color = PrimaryColor,
+//                    modifier = Modifier
+//                        .padding(top = 5.dp)
+//                )
+//
+//                // hold feature
+////                    Row() {
+////                        IconButton(
+////                            onClick = {
+////
+////                            }) {
+////                            Icon(
+////                                imageVector = Icons.Filled.Share,
+////                                contentDescription = "Share",
+////                                tint = Color.Black
+////                            )
+////                        }
+////
+////                        IconButton(onClick = {
+////
+////                        }) {
+////                            Icon(
+////                                imageVector = Icons.Filled.Settings,
+////                                contentDescription = "Settings",
+////                                tint = Color.Black
+////                            )
+////                        }
+////                    }
+//
+//            }
+//
+//        }
+//    }
+//
+//}
 
-        }
-    }
-
-}
-
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun MainActivityPreview() {
-    MainActivity().InitView()
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//fun MainActivityPreview() {
+//    MainActivity().InitView()
+//}
