@@ -50,6 +50,10 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
+    }
+
+    buildFeatures {
         viewBinding = true
     }
 
@@ -91,5 +95,8 @@ dependencies {
     // koin
     implementation( "io.insert-koin:koin-android:3.3.3")
     implementation( "io.insert-koin:koin-androidx-workmanager:3.3.3")
+
+    // easy permission
+    implementation("pub.devrel:easypermissions:3.0.0")
 
 }
