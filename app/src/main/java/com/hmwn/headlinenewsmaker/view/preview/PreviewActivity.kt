@@ -1,27 +1,20 @@
 package com.hmwn.headlinenewsmaker.view.preview
 
 import android.content.ContentValues
-import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.hmwn.headlinenewsmaker.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import android.graphics.Color;
-import android.system.Os.remove
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.viewbinding.ViewBinding
 import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
 import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.data.Constants.PATH_DEFAULT
@@ -37,22 +30,15 @@ class PreviewActivity : AppCompatActivity() {
 
     companion object {
         const val HEADLINE_ARG = "headline"
-        const val AUTHOR_ARG = "author"
-        const val DESCRIPTION_ARG = "description"
-        const val DATETIME_ARG = "datetime"
-        const val MIME_TYPE_PNG = "image/png"
+        const val IMAGE_ARG = "image"
     }
 
     val headline by lazy {
         intent.getStringExtra(HEADLINE_ARG) ?: ""
     }
 
-    val author by lazy {
-        intent.getStringExtra(AUTHOR_ARG) ?: ""
-    }
-
-    val description by lazy {
-        intent.getStringExtra(DESCRIPTION_ARG) ?: ""
+    val byteArray by lazy {
+        intent.getByteArrayExtra(IMAGE_ARG)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,18 +52,10 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun initView() {
 
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
+
         with(binding) {
-
-            val template = ViewTemplateLandscapeCnnBinding.inflate(layoutInflater)
-
-            includedLayout.root.removeAllViews()
-            includedLayout.root.addView(template.root)
-
-            with(template) {
-                tvHeadline.text = headline ?: ""
-                tvDescription.text = description ?: ""
-            }
-
+            ivPreview.setImageBitmap(bitmap)
         }
 
     }
@@ -91,7 +69,7 @@ class PreviewActivity : AppCompatActivity() {
             }
 
             btnDownload.setOnClickListener {
-                val bitmap = getBitmapFromUiView(includedLayout.root)
+                val bitmap = getBitmapFromUiView(ivPreview)
                 saveBitmapImage(bitmap, headline)
             }
 
