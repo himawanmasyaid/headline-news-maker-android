@@ -52,6 +52,14 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <style name="Header5.Medium" parent="Header5">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Header5.SemiBold" parent="Header5">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+    </style>
+
     <style name="Header5.Bold" parent="Header5">
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
@@ -66,6 +74,10 @@
 
     <style name="Header7" parent="Regular">
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Header7.Medium" parent="Header7">
+        <item name="android:fontFamily">@font/poppins_medium</item>
     </style>
 
     <style name="Header7.Bold" parent="Header7">
