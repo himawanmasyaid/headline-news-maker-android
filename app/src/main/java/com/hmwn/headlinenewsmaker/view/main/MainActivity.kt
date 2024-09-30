@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.databinding.ActivityMainBinding
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModel<MainViewModel>()
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+        HeadlineAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +59,12 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
 
+            rvContent.adapter = adapter
+            rvContent.apply {
+                isNestedScrollingEnabled = false
+                layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+            }
+
         }
 
     }
@@ -62,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
 
-            btnAdd.setOnClickListener {
+             btnCreateHeadline.setOnClickListener {
                 startActivity(Intent(this@MainActivity, CreateHeadlineActivity::class.java))
             }
 
@@ -73,103 +84,6 @@ class MainActivity : AppCompatActivity() {
     private fun startObserveData() {
 
 
-
     }
 
 }
-
-//    setContent {
-//        Surface(
-//            modifier = Modifier.fillMaxSize(),
-//        ) {
-//            InitView()
-//        }
-//    }
-
-//    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-//    @Composable
-//    fun InitView() {
-//        Scaffold(
-//            modifier = Modifier.fillMaxSize(),
-//            topBar = {
-//                AppBarView()
-//            },
-//            content = {
-//
-//                Column(
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .fillMaxHeight()
-//                            .padding(it)
-//                    ) {
-//                        HomeView(this@MainActivity, viewModel)
-//                    }
-//
-//                }
-//
-//            }
-//        )
-//    }
-
-//    @Composable
-//    fun AppBarView() {
-//        Surface(shadowElevation = 2.dp) {
-//
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(50.dp)
-//                    .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.Start
-//            ) {
-//
-//                Text(
-//                    text = stringResource(R.string.app_name),
-//                    style = body1Bold,
-//                    color = PrimaryColor,
-//                    modifier = Modifier
-//                        .padding(top = 5.dp)
-//                )
-//
-//                // hold feature
-////                    Row() {
-////                        IconButton(
-////                            onClick = {
-////
-////                            }) {
-////                            Icon(
-////                                imageVector = Icons.Filled.Share,
-////                                contentDescription = "Share",
-////                                tint = Color.Black
-////                            )
-////                        }
-////
-////                        IconButton(onClick = {
-////
-////                        }) {
-////                            Icon(
-////                                imageVector = Icons.Filled.Settings,
-////                                contentDescription = "Settings",
-////                                tint = Color.Black
-////                            )
-////                        }
-////                    }
-//
-//            }
-//
-//        }
-//    }
-//
-//}
-
-//@Preview(
-//    showSystemUi = true,
-//    showBackground = true
-//)
-//@Composable
-//fun MainActivityPreview() {
-//    MainActivity().InitView()
-//}

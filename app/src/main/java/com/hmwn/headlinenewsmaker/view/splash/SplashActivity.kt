@@ -74,11 +74,11 @@ class SplashActivity : ComponentActivity() {
 
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun PreviewSplashScreen() {
-    SplashActivity().InitView()
-}
+//@Preview(
+//    showSystemUi = true,
+//    showBackground = true
+//)
+//@Composable
+//fun PreviewSplashScreen() {
+//    SplashActivity().InitView()
+//}
