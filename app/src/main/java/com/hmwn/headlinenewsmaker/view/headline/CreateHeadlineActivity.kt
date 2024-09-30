@@ -21,9 +21,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewbinding.ViewBinding
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.ads.AdsManager
 import com.hmwn.headlinenewsmaker.common.ImagePicker
 import com.hmwn.headlinenewsmaker.common.afterTextChanged
 import com.hmwn.headlinenewsmaker.common.toast
@@ -43,6 +46,8 @@ class CreateHeadlineActivity : BaseActivity() {
     }
 
     private val imagePicker by inject<ImagePicker>()
+
+    private val adsManager by inject<AdsManager>()
 
     private var headline: String? = ""
     private var description: String? = ""
@@ -66,6 +71,7 @@ class CreateHeadlineActivity : BaseActivity() {
 
         initView()
         initListener()
+        adsManager.setupInterstitial()
 
         Handler(Looper.getMainLooper()).postDelayed({
             showTextBottomDialog()
@@ -100,7 +106,7 @@ class CreateHeadlineActivity : BaseActivity() {
             }
 
             btnPreview.setOnClickListener {
-                navigateToPreview()
+                showInterstitialAds()
             }
 
             ivTemplate.setOnClickListener {
@@ -257,5 +263,31 @@ class CreateHeadlineActivity : BaseActivity() {
         //return the bitmap
         return returnedBitmap
     }
+
+    private fun showInterstitialAds() {
+
+        adsManager.showInterstitialAds(this@CreateHeadlineActivity)
+
+        // listener
+        adsManager?.getInterstitial()!!.getAds()?.fullScreenContentCallback =
+            object : FullScreenContentCallback() {
+                override fun onAdClicked() {
+                    // Called when a click is recorded for an ad.
+                    navigateToPreview()
+                }
+
+                override fun onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent()
+                    navigateToPreview()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    super.onAdFailedToShowFullScreenContent(p0)
+                    navigateToPreview()
+                }
+            }
+
+    }
+
 
 }
