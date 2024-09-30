@@ -99,4 +99,11 @@ dependencies {
     // easy permission
     implementation("pub.devrel:easypermissions:3.0.0")
 
+    // GDPR
+    implementation ("com.google.android.ump:user-messaging-platform:3.0.0")
+
+    // ads
+    implementation ("com.google.android.gms:play-services-ads:23.3.0")
+
+
 }
