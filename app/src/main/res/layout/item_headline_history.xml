@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <ImageView
+        android:id="@+id/ivTemplate"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/black6"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/img_monkey_hope"
+        />
+
+    <TextView
+        android:id="@+id/tvHeadline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivTemplate"
+        app:layout_constraintTop_toTopOf="@+id/ivTemplate"
+        android:layout_marginEnd="8dp"
+        tools:text="@tools:sample/lorem/random"
+        style="@style/TextParagraph2.Bold"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginTop="12dp"
+        />
+
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeadline"
+        app:layout_constraintEnd_toStartOf="@id/ivTemplate"
+        android:layout_marginEnd="8dp"
+        tools:text="@tools:sample/lorem/random"
+        android:maxLines="2"
+        android:ellipsize="end"
+        style="@style/TextParagraph3"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
