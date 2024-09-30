@@ -31,6 +31,7 @@ import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
 import com.hmwn.headlinenewsmaker.view.headline.CreateHeadlineActivity
 import com.hmwn.headlinenewsmaker.view.main.home.HomeView
+import com.hmwn.headlinenewsmaker.view.template.TemplateActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
 
              btnCreateHeadline.setOnClickListener {
-                startActivity(Intent(this@MainActivity, CreateHeadlineActivity::class.java))
+                startActivity(Intent(this@MainActivity, TemplateActivity::class.java))
             }
 
         }

@@ -9,6 +9,7 @@
     <string name="start_create_headline">Start Create Headline</string>
     <string name="headline_history">Headline History</string>
     <string name="create_headline_title">Create your headline</string>
+    <string name="title_template">Template Design</string>
 
     <!-- Create News  -->
     <string name="headline">Headline</string>

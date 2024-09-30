@@ -1,24 +1,18 @@
 package com.hmwn.headlinenewsmaker.data.model
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import androidx.viewbinding.ViewBinding
 import com.hmwn.headlinenewsmaker.R
-import com.hmwn.headlinenewsmaker.databinding.ViewTemplateLandscapeBbcBinding
-import com.hmwn.headlinenewsmaker.databinding.ViewTemplateLandscapeCnnBinding
 
-data class TemplateDesign(
+data class TemplateDesignModel(
     var id: Int,
     var template: Int,
 )
 
 fun getTemplateDesign() = listOf(
-    TemplateDesign(
+    TemplateDesignModel(
         id = 1,
         template = R.layout.view_template_landscape_cnn
     ),
-    TemplateDesign(
+    TemplateDesignModel(
         id = 2,
         template = R.layout.view_template_landscape_bbc
     )
