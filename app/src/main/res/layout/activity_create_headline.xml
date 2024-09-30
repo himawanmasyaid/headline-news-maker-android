@@ -53,6 +53,7 @@
             android:layout_height="36dp"
             android:layout_marginEnd="24dp"
             android:src="@drawable/ic_layout"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ivSize"
             app:layout_constraintTop_toTopOf="parent" />
