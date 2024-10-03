@@ -4,7 +4,8 @@
     <color name="primary">#0B5AAB</color>
     <color name="primary_dark">#1A2C3F</color>
     <color name="soft_primary">#ECF9FF</color>
-    <color name="statusBarColor">#121212</color>
+    <color name="statusBarColor">@color/onyx</color>
+    <color name="backgroundPrimary">@color/onyx</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
@@ -13,6 +14,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="brandies_blue">#0077ff</color>
+    <color name="mirage">#12152e</color>
+    <color name="dark_sky_blue">#4a93ed</color>
+    <color name="dark">#182633</color>
+    <color name="onyx">#121212</color>
 
     <color name="celestial_blue">#48a4d9</color>
     <color name="pale_bluze_lily">#d3eff5</color>
