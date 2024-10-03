@@ -1,23 +1,34 @@
 package com.hmwn.headlinenewsmaker.repo
 
 import com.hmwn.headlinenewsmaker.data.local.LocalDatabase
-import com.hmwn.headlinenewsmaker.data.local.dao.HeadlineNewsDao
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
+import com.hmwn.headlinenewsmaker.repo.datasource.HeadlineNewsDataSource
 
 class HeadlineNewsRepository(
-    private val localDatabase: LocalDatabase
-) {
+    private val database: LocalDatabase
+): HeadlineNewsDataSource {
 
-    suspend fun insert(headline: HeadlineNewsEntity): Long {
-        return localDatabase.headlineNewsDao().insertArticle(headline)
+    override suspend fun insert(headline: HeadlineNewsEntity): Long {
+        return database.headlineNewsDao().insertHeadline(headline)
     }
 
-    suspend fun getAll() = localDatabase.headlineNewsDao().getAllHeadlineNews()
+    override suspend fun getAllHeadlineNews(): List<HeadlineNewsEntity> {
+        return database.headlineNewsDao().getAllHeadlineNews()
+    }
 
-    suspend fun getById(id: Int) = localDatabase.headlineNewsDao().getHeadlineNewsById(id)
+    override suspend fun getHeadlineNewsById(id: Int): HeadlineNewsEntity {
+        return database.headlineNewsDao().getHeadlineNewsById(id)
+    }
 
-    suspend fun update(headline: HeadlineNewsEntity) = localDatabase.headlineNewsDao().updateHeadlineNews(headline)
+    override suspend fun updateHeadlineNews(headline: HeadlineNewsEntity) {
+        database.headlineNewsDao().updateHeadlineNews(headline)
+    }
 
-    suspend fun delete(headline: HeadlineNewsEntity) = localDatabase.headlineNewsDao().deleteHeadlineNews(headline)
+    override suspend fun deleteHeadlineNews(headline: HeadlineNewsEntity) {
+        database.headlineNewsDao().deleteHeadlineNews(headline)
+    }
 
+    override suspend fun isHeadlineAvailable(headline: String): Boolean {
+        return database.headlineNewsDao().isHeadlineAvailable(headline)
+    }
 }
