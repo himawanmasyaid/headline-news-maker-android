@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@color/black6"
         />
 
 
@@ -66,9 +66,9 @@
             android:layout_height="wrap_content"
             android:background="@color/cnn_primary_color"
             android:includeFontPadding="false"
-            android:paddingHorizontal="12dp"
+            android:paddingHorizontal="6dp"
             android:paddingVertical="4dp"
-            android:text="@string/headline"
+            android:text="@string/breaking_news"
             android:textAllCaps="true"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
