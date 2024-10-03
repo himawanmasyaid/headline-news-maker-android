@@ -33,6 +33,7 @@ import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import com.hmwn.headlinenewsmaker.BuildConfig
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
 import com.hmwn.headlinenewsmaker.databinding.ActivityMainBinding
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
 
              btnCreateHeadline.setOnClickListener {
-                startActivity(Intent(this@MainActivity, TemplateActivity::class.java))
+                 startActivityLeftTransition<TemplateActivity>()
             }
 
         }

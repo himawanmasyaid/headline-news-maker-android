@@ -15,11 +15,17 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import android.graphics.Color;
+import com.hmwn.headlinenewsmaker.common.clearTask
+import com.hmwn.headlinenewsmaker.common.clearTop
+import com.hmwn.headlinenewsmaker.common.createIntent
 import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
+import com.hmwn.headlinenewsmaker.common.newTask
+import com.hmwn.headlinenewsmaker.common.startActivityOutRightTransition
 import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.data.Constants.PATH_DEFAULT
 import com.hmwn.headlinenewsmaker.databinding.ActivityPreviewBinding
 import com.hmwn.headlinenewsmaker.databinding.ViewTemplateLandscapeCnnBinding
+import com.hmwn.headlinenewsmaker.view.main.MainActivity
 
 
 class PreviewActivity : AppCompatActivity() {
@@ -65,6 +71,12 @@ class PreviewActivity : AppCompatActivity() {
         with(binding) {
 
             btnBack.setOnClickListener {
+                startActivityOutRightTransition(
+                    createIntent(this@PreviewActivity, MainActivity::class.java)
+                        .newTask()
+                        .clearTask()
+                        .clearTop()
+                )
                 finish()
             }
 

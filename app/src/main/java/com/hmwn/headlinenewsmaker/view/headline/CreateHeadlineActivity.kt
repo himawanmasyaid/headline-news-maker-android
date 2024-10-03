@@ -29,7 +29,10 @@ import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.ads.AdsManager
 import com.hmwn.headlinenewsmaker.common.ImagePicker
 import com.hmwn.headlinenewsmaker.common.afterTextChanged
+import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
+import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
 import com.hmwn.headlinenewsmaker.common.toast
+import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.data.model.getDetailTemplateLayout
 import com.hmwn.headlinenewsmaker.databinding.ActivityCreateHeadlineBinding
 import com.hmwn.headlinenewsmaker.databinding.ViewInputHeadlineBottomDialogBinding
@@ -38,12 +41,15 @@ import com.hmwn.headlinenewsmaker.view.preview.PreviewActivity
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import java.io.ByteArrayOutputStream
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateHeadlineActivity : BaseActivity() {
 
     private val binding by lazy {
         ActivityCreateHeadlineBinding.inflate(layoutInflater)
     }
+
+    private val viewModel: CreateHeadlineViewModel by viewModel()
 
     private val imagePicker by inject<ImagePicker>()
 
@@ -62,6 +68,7 @@ class CreateHeadlineActivity : BaseActivity() {
 
     private lateinit var tvHeadline: TextView
     private lateinit var tvDescription: TextView
+    private lateinit var tvWatermark: TextView
     private lateinit var ivHeadline: ImageView
     private lateinit var containerTemplate: ConstraintLayout
 
@@ -90,6 +97,7 @@ class CreateHeadlineActivity : BaseActivity() {
 
             tvHeadline = inflatedView.findViewById(R.id.tvHeadline)
             tvDescription = inflatedView.findViewById(R.id.tvDescription)
+            tvWatermark = inflatedView.findViewById(R.id.tvWatermark)
             ivHeadline = inflatedView.findViewById(R.id.ivHeadline)
             containerTemplate = inflatedView.findViewById(R.id.container)
 
@@ -105,8 +113,25 @@ class CreateHeadlineActivity : BaseActivity() {
                 finish()
             }
 
+            tvHeadline.setOnClickListener {
+                showTextBottomDialog()
+            }
+
+            tvDescription.setOnClickListener {
+                showTextBottomDialog()
+            }
+
+            ivHeadline.setOnClickListener {
+                showPhotoPickerDialog()
+            }
+
             btnPreview.setOnClickListener {
-                showInterstitialAds()
+                if (headline!!.isNotEmpty() && description!!.isNotEmpty()) {
+                    showInterstitialAds()
+                } else {
+                    toast(getString(R.string.please_input_data))
+                }
+
             }
 
             ivTemplate.setOnClickListener {
@@ -127,22 +152,27 @@ class CreateHeadlineActivity : BaseActivity() {
 
     private fun navigateToPreview() {
 
-        if (headline!!.isNotEmpty() && description!!.isNotEmpty()) {
+        val request = HeadlineNewsEntity(
+            headline = headline!!,
+            description = description!!,
+            author = "",
+            datetime = getCurrentDateTime(),
+            image = "",
+            templateId = templateId,
+        )
 
-            val bitmap = getBitmapFromUiView(containerTemplate)
+        viewModel.insertHeadline(request)
 
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray = stream.toByteArray()
+        val bitmap = getBitmapFromUiView(containerTemplate)
 
-            val intent = Intent(this@CreateHeadlineActivity, PreviewActivity::class.java)
-            intent.putExtra("image", byteArray)
-            startActivity(intent)
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val byteArray = stream.toByteArray()
 
-
-        } else {
-            toast("Please Input Data")
-        }
+        startActivityLeftTransition<PreviewActivity>(
+            PreviewActivity.HEADLINE_ARG to headline,
+            PreviewActivity.IMAGE_ARG to byteArray
+        )
 
     }
 

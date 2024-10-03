@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.ads.AdsManager
+import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
 import com.hmwn.headlinenewsmaker.common.visible
 import com.hmwn.headlinenewsmaker.data.model.TemplateDesignModel
 import com.hmwn.headlinenewsmaker.data.model.getTemplateDesign
@@ -57,11 +58,17 @@ class TemplateActivity : AppCompatActivity() {
 
     fun initListener() {
 
+        with(binding) {
+            toolbar.setNavigationOnClickListener {
+                finish()
+            }
+        }
+
         adapter.setListener(object : TemplateAdapter.AdapterListener {
             override fun onClickSetting(item: TemplateDesignModel) {
-                val intent = Intent(this@TemplateActivity, CreateHeadlineActivity::class.java)
-                intent.putExtra(CreateHeadlineActivity.TEMPLATE_ID_ARG, item.id)
-                startActivity(intent)
+                startActivityLeftTransition<CreateHeadlineActivity>(
+                    CreateHeadlineActivity.TEMPLATE_ID_ARG to item.id
+                )
             }
         })
     }

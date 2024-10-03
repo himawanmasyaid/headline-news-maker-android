@@ -10,23 +10,19 @@ import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.repo.HeadlineNewsRepository
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import com.hmwn.headlinenewsmaker.repo.datasource.HeadlineNewsDataSource
 
 class MainViewModel(
-    private val headlineNewsRepository: HeadlineNewsRepository
+    private val headlineNewsRepository: HeadlineNewsDataSource
 ) : ViewModel() {
 
     private val _headlines = MutableLiveData<List<HeadlineNewsEntity>>()
     val headlinesState: LiveData<List<HeadlineNewsEntity>> = _headlines
 
-    // state
-    private val _newsState: MutableState<List<HeadlineNewsEntity>> = mutableStateOf(emptyList())
-    val newsState: State<List<HeadlineNewsEntity>> = _newsState
-
     fun getHeadlineNews() {
         viewModelScope.launch {
-            val response = headlineNewsRepository.getAll()
+            val response = headlineNewsRepository.getAllHeadlineNews()
             _headlines.value = response
-            _newsState.value = response
         }
     }
 

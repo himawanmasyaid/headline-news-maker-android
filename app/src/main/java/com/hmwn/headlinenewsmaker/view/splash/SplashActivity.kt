@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
 import com.hmwn.headlinenewsmaker.view.headline.CreateHeadlineActivity
 import com.hmwn.headlinenewsmaker.view.main.MainActivity
 
@@ -36,8 +37,7 @@ class SplashActivity : ComponentActivity() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivityLeftTransition<MainActivity>()
             finish()
         }, 2000)
 
