@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -38,6 +39,9 @@ import com.hmwn.headlinenewsmaker.databinding.ActivityCreateHeadlineBinding
 import com.hmwn.headlinenewsmaker.databinding.ViewInputHeadlineBottomDialogBinding
 import com.hmwn.headlinenewsmaker.view.base.BaseActivity
 import com.hmwn.headlinenewsmaker.view.preview.PreviewActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import java.io.ByteArrayOutputStream
@@ -121,10 +125,6 @@ class CreateHeadlineActivity : BaseActivity() {
                 showTextBottomDialog()
             }
 
-            ivHeadline.setOnClickListener {
-                showPhotoPickerDialog()
-            }
-
             btnPreview.setOnClickListener {
                 if (headline!!.isNotEmpty() && description!!.isNotEmpty()) {
                     showInterstitialAds()
@@ -191,6 +191,9 @@ class CreateHeadlineActivity : BaseActivity() {
         }
 
         with(textBottomDialog) {
+
+            etHeadline.setText(headline ?: "")
+            etDescription.setText(description ?: "")
 
             etHeadline.afterTextChanged {
                 headline = it
@@ -269,7 +272,13 @@ class CreateHeadlineActivity : BaseActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val uri = data?.data
-                ivHeadline.setImageURI(uri)
+
+                lifecycleScope.launch {
+                    val bitmapImage = withContext(Dispatchers.Default) {
+                        imagePicker.getBitmapImageFromUri(uri)
+                    }
+                    ivHeadline.setImageBitmap(bitmapImage)
+                }
             }
         }
 

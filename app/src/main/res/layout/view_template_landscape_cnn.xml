@@ -19,7 +19,6 @@
         android:src="@color/black6"
         />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutHeadline"
         android:layout_width="match_parent"
