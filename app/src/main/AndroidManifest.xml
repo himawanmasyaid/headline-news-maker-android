@@ -66,13 +66,6 @@
         <activity
             android:name=".view.main.MainActivity"
             android:exported="true" />
-        <activity
-            android:name=".view.createnews.CreateNewsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".view.preview.PreviewNewsActivity"
-            android:exported="true" />
-
         <provider
             android:name=".common.CoreFileProvider"
             android:authorities="${applicationId}.provider"
