@@ -28,3 +28,7 @@ fun getDetailTemplateLayout(id: Int) : Int {
     }
 
 }
+
+fun getTemplateDesignLayout(id: Int) : TemplateDesignModel? {
+    return getTemplateDesign().findLast { it.id == id }
+}
