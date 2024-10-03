@@ -37,7 +37,6 @@ import com.hmwn.headlinenewsmaker.databinding.ActivityMainBinding
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
 import com.hmwn.headlinenewsmaker.view.headline.CreateHeadlineActivity
-import com.hmwn.headlinenewsmaker.view.main.home.HomeView
 import com.hmwn.headlinenewsmaker.view.template.TemplateActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.atomic.AtomicBoolean
@@ -100,6 +99,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun startObserveData() {
 
+        viewModel.headlinesState.observe(this) {
+            adapter.clear()
+            adapter.insertAll(it)
+        }
 
     }
 

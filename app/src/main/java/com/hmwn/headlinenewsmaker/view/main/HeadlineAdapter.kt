@@ -1,9 +1,13 @@
 package com.hmwn.headlinenewsmaker.view.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hmwn.headlinenewsmaker.common.gone
+import com.hmwn.headlinenewsmaker.common.visible
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
+import com.hmwn.headlinenewsmaker.data.model.getTemplateDesignLayout
 import com.hmwn.headlinenewsmaker.databinding.ItemHeadlineHistoryBinding
 
 class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
@@ -49,11 +53,9 @@ class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
             with(binding) {
 
                 tvHeadline.text = data.headline
+                tvDescription.text = data.description
 
             }
-
         }
-
     }
-
 }
