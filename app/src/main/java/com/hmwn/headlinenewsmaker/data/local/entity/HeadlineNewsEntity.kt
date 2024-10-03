@@ -8,12 +8,16 @@ import androidx.room.PrimaryKey
 data class HeadlineNewsEntity(
     @ColumnInfo(name = "headline")
     val headline: String,
+    @ColumnInfo(name = "description")
+    val description: String,
     @ColumnInfo(name = "author")
     val author: String,
     @ColumnInfo(name = "datetime")
     val datetime: String,
     @ColumnInfo(name = "image")
     val image: String = "",
+    @ColumnInfo(name = "template_id")
+    val templateId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
 )

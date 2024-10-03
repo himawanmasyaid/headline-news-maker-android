@@ -11,7 +11,7 @@ import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 interface HeadlineNewsDao {
 
     @Insert
-    suspend fun insertArticle(article: HeadlineNewsEntity) : Long
+    suspend fun insertHeadline(headline: HeadlineNewsEntity) : Long
 
     @Query("SELECT * FROM headline_news")
     suspend fun getAllHeadlineNews(): List<HeadlineNewsEntity>
@@ -20,9 +20,12 @@ interface HeadlineNewsDao {
     suspend fun getHeadlineNewsById(id: Int): HeadlineNewsEntity
 
     @Update
-    suspend fun updateHeadlineNews(article: HeadlineNewsEntity)
+    suspend fun updateHeadlineNews(headline: HeadlineNewsEntity)
 
     @Delete
-    suspend fun deleteHeadlineNews(article: HeadlineNewsEntity)
+    suspend fun deleteHeadlineNews(headline: HeadlineNewsEntity)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM headline_news WHERE headline = :headline)")
+    suspend fun isHeadlineAvailable(headline: String): Boolean
 
 }
