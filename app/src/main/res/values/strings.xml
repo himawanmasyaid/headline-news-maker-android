@@ -13,6 +13,7 @@
 
     <!-- Create News  -->
     <string name="headline">Headline</string>
+    <string name="breaking_news">Breaking News</string>
     <string name="input_headline">Input Headline...</string>
     <string name="description_optional">Description (Optional)</string>
     <string name="description">Description</string>
