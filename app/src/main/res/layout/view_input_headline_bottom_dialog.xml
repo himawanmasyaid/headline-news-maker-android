@@ -6,7 +6,7 @@
     android:background="@drawable/bg_rounded_top_white"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    android:paddingTop="32dp"
+    android:paddingTop="24dp"
     android:paddingBottom="24dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/done"
-            style="@style/TextParagraph2.Medium"
+            style="@style/TextParagraph2.Bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,27 +51,24 @@
         android:maxLines="2"
         android:minLines="2" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="24dp" />
-
     <EditText
         android:id="@+id/etDescription"
         style="@style/InputPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="@string/input_description"
         android:maxLines="2"
         android:minLines="2" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSave"
-        style="@style/buttonPrimary"
+    <EditText
+        android:id="@+id/etWatermark"
+        style="@style/InputPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/save"
-        android:visibility="gone"
-        />
+        android:hint="@string/input_watermark"
+        android:layout_marginTop="16dp"
+        android:maxLines="2"
+        android:minLines="2" />
 
 </LinearLayout>

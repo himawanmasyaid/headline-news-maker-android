@@ -11,13 +11,12 @@
         android:id="@+id/ivHeadline"
         android:layout_width="0dp"
         android:layout_height="608px"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
         android:src="@color/black5"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutHeadline"
@@ -38,9 +37,10 @@
             android:includeFontPadding="false"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/line"
+            app:layout_constraintTop_toBottomOf="@+id/tvWatermark"
             tools:text="@string/your_headline_text_here" />
 
         <View
@@ -48,8 +48,8 @@
             android:layout_width="4dp"
             android:layout_height="0dp"
             android:background="@color/cnn_primary_color"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/tvHeadline"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvHeadline" />
 
         <View
@@ -60,18 +60,18 @@
 
         <TextView
             android:id="@+id/tvWatermark"
-            style="@style/TextParagraph5.Medium"
-            android:layout_width="wrap_content"
+            style="@style/TextParagraph4.Medium"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/cnn_primary_color"
             android:includeFontPadding="false"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="4dp"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="2dp"
             android:text="@string/breaking_news"
             android:textAllCaps="true"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spacer" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -86,7 +86,7 @@
             android:paddingVertical="4dp"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvWatermark"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spacer"
             tools:text="@tools:sample/lorem/random" />
 

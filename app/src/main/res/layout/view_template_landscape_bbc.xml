@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
-        android:src="@color/black6"
+        android:src="@color/black5"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Penembakan Di Masjid Selandia Baru" />
+            tools:text="@string/your_headline_text_here" />
 
         <View
             android:id="@+id/spacer"
@@ -53,8 +53,8 @@
 
         <TextView
             android:id="@+id/tvWatermark"
-            style="@style/TextParagraph4.Medium"
-            android:layout_width="wrap_content"
+            style="@style/TextParagraph5.Medium"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/black"
             android:includeFontPadding="false"
