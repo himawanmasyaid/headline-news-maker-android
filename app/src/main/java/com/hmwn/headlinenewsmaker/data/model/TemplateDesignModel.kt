@@ -50,6 +50,11 @@ fun getTemplateDesign() = listOf(
         template = R.layout.view_template_landscape_bbc_2,
         templateType = TemplateType.LANDSCAPE
     ),
+//    TemplateDesignModel(
+//        id = 9,
+//        template = R.layout.view_template_mobile,
+//        templateType = TemplateType.MOBILE
+//    ),
 )
 
 fun getFilterByCategory(categoryId: Int): List<TemplateDesignModel> {
