@@ -8,8 +8,8 @@ class HeadlineNewsRepository(
     private val database: LocalDatabase
 ): HeadlineNewsDataSource {
 
-    override suspend fun insert(headline: HeadlineNewsEntity): Long {
-        return database.headlineNewsDao().insertHeadline(headline)
+    override suspend fun insert(data: HeadlineNewsEntity): Long {
+        return database.headlineNewsDao().insertHeadline(data)
     }
 
     override suspend fun getAllHeadlineNews(): List<HeadlineNewsEntity> {
@@ -20,12 +20,12 @@ class HeadlineNewsRepository(
         return database.headlineNewsDao().getHeadlineNewsById(id)
     }
 
-    override suspend fun updateHeadlineNews(headline: HeadlineNewsEntity) {
-        database.headlineNewsDao().updateHeadlineNews(headline)
+    override suspend fun updateHeadlineNews(data: HeadlineNewsEntity) {
+        database.headlineNewsDao().updateHeadlineNews(data)
     }
 
-    override suspend fun deleteHeadlineNews(headline: HeadlineNewsEntity) {
-        database.headlineNewsDao().deleteHeadlineNews(headline)
+    override suspend fun deleteHeadlineNews(data: HeadlineNewsEntity) {
+        database.headlineNewsDao().deleteHeadlineNews(data)
     }
 
     override suspend fun isHeadlineAvailable(headline: String): Boolean {
