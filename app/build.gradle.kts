@@ -12,8 +12,8 @@ android {
         applicationId = "com.hmwn.headlinenewsmaker"
         minSdk = 28
         targetSdk = 34
-        versionCode = 2
-        versionName = "0.0.0"
+        versionCode = 3
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -47,6 +47,10 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildFeatures {
@@ -91,5 +95,15 @@ dependencies {
     // koin
     implementation( "io.insert-koin:koin-android:3.3.3")
     implementation( "io.insert-koin:koin-androidx-workmanager:3.3.3")
+
+    // easy permission
+    implementation("pub.devrel:easypermissions:3.0.0")
+
+    // GDPR
+    implementation ("com.google.android.ump:user-messaging-platform:3.0.0")
+
+    // ads
+    implementation ("com.google.android.gms:play-services-ads:23.3.0")
+
 
 }

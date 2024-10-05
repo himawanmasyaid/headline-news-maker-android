@@ -8,25 +8,57 @@
     <string name="headline_desc">makes it easy to create headline\ndesign and share or print them</string>
     <string name="start_create_headline">Start Create Headline</string>
     <string name="headline_history">Headline History</string>
+    <string name="create_headline_title">Create your headline</string>
+    <string name="title_template">Template Design</string>
 
     <!-- Create News  -->
     <string name="headline">Headline</string>
+    <string name="breaking_news">Breaking News</string>
     <string name="input_headline">Input Headline...</string>
+    <string name="description_optional">Description (Optional)</string>
+    <string name="description">Description</string>
+    <string name="input_description">Input Description...</string>
+    <string name="input_watermark">Input Watermark...</string>
     <string name="author">Author</string>
+    <string name="author_optional">Author (Optional)</string>
     <string name="input_author">Input Author...</string>
     <string name="datetime">Datetime</string>
     <string name="input_datetime">Input Datetime...</string>
+    <string name="download">Download</string>
+    <string name="download_success">Success Download</string>
+    <string name="download_failed">Failed Download</string>
+    <string name="save">Save</string>
+    <string name="text">Text</string>
+    <string name="done">Done</string>
+    <string name="choose_or_take_photo">Choose or Take Photo</string>
 
     <!-- Common  -->
+    <string name="create_headline">Create Headline</string>
     <string name="create_now">Create Now</string>
     <string name="preview_now">Preview Now</string>
+    <string name="preview">Preview</string>
     <string name="please_input_data">Please input data</string>
     <string name="empty_state_title">Create Your First Headline</string>
     <string name="empty_state_desc">Time to be a news maker.\nWrite your first headline now.</string>
+    <string name="your_headline_text_here">Your Headline Text Here</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+
 
     <!-- Sample  -->
     <string name="headline_title_sample">A software engineer worked at Tesla, SAP, and Salesforce. Here\'s how he negotiated his salary, including a $520,000 Meta offer.</string>
     <string name="author_sample">Himawan</string>
     <string name="date_sample">5 june 2024</string>
+    <string name="easy_ways_to_create_headline">Easy Ways to Create Engaging Headlines</string>
+    <string name="easy_ways_to_create_headline_sub_desc">"This template provides a guide to creating headlines that are not only informative but also captivating.</string>
+
+    <!-- Permission  -->
+    <string name="core_permission_deny_camera" translatable="false">You disable camera permission, maybe some feature will not working.</string>
+    <string name="core_permission_deny_camera_and_storage" translatable="false">You disable camera or storage permission, maybe some feature will not working.</string>
+    <string name="core_permission_deny_storage" translatable="false">You disable storage permission, maybe some feature will not working.</string>
+    <string name="core_permission_open_settings">Open Settings</string>
+    <string name="core_permission_cancel">Cancel</string>
+    <string name="core_rationale_storage" translatable="false">This app needs access to your storage.</string>
+    <string name="core_rationale_camera" translatable="false">This app needs access to your camera.</string>
+    <string name="core_rationale_camera_and_storage" translatable="false">This app needs access to your camera and storage.</string>
 
 </resources>

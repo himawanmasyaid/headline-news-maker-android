@@ -2,31 +2,93 @@ package com.hmwn.headlinenewsmaker.view.preview
 
 import android.content.ContentValues
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.hmwn.headlinenewsmaker.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import android.graphics.Color;
+import android.util.Log
+import com.hmwn.headlinenewsmaker.common.clearTask
+import com.hmwn.headlinenewsmaker.common.clearTop
+import com.hmwn.headlinenewsmaker.common.createIntent
+import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
+import com.hmwn.headlinenewsmaker.common.newTask
+import com.hmwn.headlinenewsmaker.common.startActivityOutRightTransition
+import com.hmwn.headlinenewsmaker.common.toast
+import com.hmwn.headlinenewsmaker.data.Constants.PATH_DEFAULT
+import com.hmwn.headlinenewsmaker.data.model.DataHolder
+import com.hmwn.headlinenewsmaker.databinding.ActivityPreviewBinding
+import com.hmwn.headlinenewsmaker.databinding.ViewTemplateLandscapeCnnBinding
+import com.hmwn.headlinenewsmaker.view.main.MainActivity
 
 
 class PreviewActivity : AppCompatActivity() {
 
-    private val TAG = "SAVE_BITMAP"
+    private val binding by lazy {
+        ActivityPreviewBinding.inflate(layoutInflater)
+    }
+
+    companion object {
+        const val HEADLINE_ARG = "headline"
+    }
+
+    val headline by lazy {
+        intent.getStringExtra(HEADLINE_ARG) ?: ""
+    }
+
+    val byteArray by lazy {
+        DataHolder.getByteArray()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_preview)
+        setContentView(binding.root)
+
+        initView()
+        initListener()
+
+    }
+
+    private fun initView() {
+
+        if (byteArray != null) {
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
+
+            with(binding) {
+                ivPreview.setImageBitmap(bitmap)
+            }
+        }
+
+    }
+
+    private fun initListener() {
+
+        with(binding) {
+
+            btnBack.setOnClickListener {
+                startActivityOutRightTransition(
+                    createIntent(this@PreviewActivity, MainActivity::class.java)
+                        .newTask()
+                        .clearTask()
+                        .clearTop()
+                )
+                finish()
+            }
+
+            btnDownload.setOnClickListener {
+                val bitmap = getBitmapFromUiView(ivPreview)
+                saveBitmapImage(bitmap, headline)
+            }
+
+        }
 
     }
 
@@ -58,7 +120,7 @@ class PreviewActivity : AppCompatActivity() {
     /**Save Bitmap To Gallery
      * @param bitmap The bitmap to be saved in Storage/Gallery
      */
-    private fun saveBitmapImage(bitmap: Bitmap) {
+    private fun saveBitmapImage(bitmap: Bitmap, fileName: String) {
         val timestamp = System.currentTimeMillis()
 
         //Tell the media scanner about the new file so that it is immediately available to the user.
@@ -70,7 +132,7 @@ class PreviewActivity : AppCompatActivity() {
             values.put(MediaStore.Images.Media.DATE_TAKEN, timestamp)
             values.put(
                 MediaStore.Images.Media.RELATIVE_PATH,
-                "Pictures/" + getString(R.string.app_name)
+                "Pictures/" + PATH_DEFAULT
             )
             values.put(MediaStore.Images.Media.IS_PENDING, true)
             val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
@@ -82,26 +144,26 @@ class PreviewActivity : AppCompatActivity() {
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                             outputStream.close()
                         } catch (e: Exception) {
-                            Log.e(TAG, "saveToGallery: ", e)
+                            toast(getString(R.string.download_failed))
                         }
                     }
                     values.put(MediaStore.Images.Media.IS_PENDING, false)
                     contentResolver.update(uri, values, null, null)
 
-                    Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
+                    toast(getString(R.string.download_success))
                 } catch (e: Exception) {
-                    Log.e(TAG, "saveToGallery: ", e)
+                    toast(getString(R.string.download_failed))
                 }
             }
         } else {
             val imageFileFolder = File(
                 Environment.getExternalStorageDirectory()
-                    .toString() + '/' + getString(R.string.app_name)
+                    .toString() + '/' + PATH_DEFAULT
             )
             if (!imageFileFolder.exists()) {
                 imageFileFolder.mkdirs()
             }
-            val mImageName = "$timestamp.png"
+            val mImageName = "$fileName-${getCurrentDateTime("DD-MM-YYYY HH:mm")}.png"
 
             val imageFile = File(imageFileFolder, mImageName)
             try {
@@ -110,16 +172,21 @@ class PreviewActivity : AppCompatActivity() {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                     outputStream.close()
                 } catch (e: Exception) {
-                    Log.e(TAG, "saveToGallery: ", e)
+                    toast(getString(R.string.download_failed))
                 }
                 values.put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
                 contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
 
-                Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
+                toast(getString(R.string.download_success))
             } catch (e: Exception) {
-                Log.e(TAG, "saveToGallery: ", e)
+                toast(getString(R.string.download_failed))
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DataHolder.clear()
     }
 
 }
