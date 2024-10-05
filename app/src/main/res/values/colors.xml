@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#0B5AAB</color>
+    <color name="primary">@color/fun_blue</color>
     <color name="primary_dark">#1A2C3F</color>
     <color name="soft_primary">#ECF9FF</color>
     <color name="statusBarColor">@color/onyx</color>
@@ -19,6 +19,7 @@
     <color name="dark_sky_blue">#4a93ed</color>
     <color name="dark">#182633</color>
     <color name="onyx">#121212</color>
+    <color name="fun_blue">#0B5AAB</color>
 
     <color name="celestial_blue">#48a4d9</color>
     <color name="pale_bluze_lily">#d3eff5</color>

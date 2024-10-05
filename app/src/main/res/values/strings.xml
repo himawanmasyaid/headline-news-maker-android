@@ -48,6 +48,8 @@
     <string name="headline_title_sample">A software engineer worked at Tesla, SAP, and Salesforce. Here\'s how he negotiated his salary, including a $520,000 Meta offer.</string>
     <string name="author_sample">Himawan</string>
     <string name="date_sample">5 june 2024</string>
+    <string name="easy_ways_to_create_headline">Easy Ways to Create Engaging Headlines</string>
+    <string name="easy_ways_to_create_headline_sub_desc">"This template provides a guide to creating headlines that are not only informative but also captivating.</string>
 
     <!-- Permission  -->
     <string name="core_permission_deny_camera" translatable="false">You disable camera permission, maybe some feature will not working.</string>
