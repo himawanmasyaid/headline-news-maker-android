@@ -33,7 +33,10 @@ import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import com.hmwn.headlinenewsmaker.BuildConfig
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.common.setupRecyclerView
+import com.hmwn.headlinenewsmaker.common.setupRecyclerViewVertical
 import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
+import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.databinding.ActivityMainBinding
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
 import com.hmwn.headlinenewsmaker.ui.theme.body1Bold
@@ -77,10 +80,8 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
 
             rvContent.adapter = adapter
-            rvContent.apply {
-                isNestedScrollingEnabled = false
-                layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            }
+            rvContent.setupRecyclerViewVertical(this@MainActivity)
+
 
         }
 
@@ -95,6 +96,14 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+        adapter.setListener(object : HeadlineAdapter.AdapterListener {
+            override fun onClickItem(it: HeadlineNewsEntity) {
+                startActivityLeftTransition<CreateHeadlineActivity>(
+                    CreateHeadlineActivity.TEMPLATE_ID_ARG to it.templateId,
+                    CreateHeadlineActivity.HEADLINE_ID_ARG to it.id,
+                )            }
+        })
 
     }
 

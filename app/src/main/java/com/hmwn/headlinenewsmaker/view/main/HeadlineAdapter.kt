@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hmwn.headlinenewsmaker.common.gone
 import com.hmwn.headlinenewsmaker.common.visible
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
+import com.hmwn.headlinenewsmaker.data.model.TemplateDesignModel
 import com.hmwn.headlinenewsmaker.data.model.getTemplateDesignLayout
 import com.hmwn.headlinenewsmaker.databinding.ItemHeadlineHistoryBinding
+import com.hmwn.headlinenewsmaker.view.template.TemplateAdapter
 
 class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
 
@@ -26,6 +28,16 @@ class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
             listData.clear()
             notifyDataSetChanged()
         }
+    }
+
+    lateinit var callbackListener: AdapterListener
+
+    interface AdapterListener {
+        fun onClickItem(item: HeadlineNewsEntity)
+    }
+
+    fun setListener(listener: AdapterListener) {
+        this.callbackListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -55,7 +67,12 @@ class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
                 tvHeadline.text = data.headline
                 tvDescription.text = data.description
 
+                itemView.rootView.setOnClickListener {
+                    callbackListener.onClickItem(data)
+                }
+
             }
         }
     }
+
 }
