@@ -10,7 +10,7 @@ object TemplateType {
 
     const val LANDSCAPE = 1
     const val POTRAIT = 2
-    const val RECTANGLE = 3
+    const val RECTANGLE = 3 // persegi
     const val MOBILE = 4
 
 }
