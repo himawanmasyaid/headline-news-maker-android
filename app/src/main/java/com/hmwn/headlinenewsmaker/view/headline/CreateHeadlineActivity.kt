@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,13 +62,23 @@ class CreateHeadlineActivity : BaseActivity() {
 
     private var headline: String? = ""
     private var description: String? = ""
+    private var watermark: String? = ""
 
     companion object {
         const val TEMPLATE_ID_ARG = "template_id"
+        const val HEADLINE_ID_ARG = "headline_id"
     }
 
     val templateId by lazy {
         intent.getIntExtra(TEMPLATE_ID_ARG, 1)
+    }
+
+    val headlineId by lazy {
+        intent.getIntExtra(HEADLINE_ID_ARG, 0)
+    }
+
+    val bottomSheetDialog by lazy {
+        BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
     }
 
     private lateinit var tvHeadline: TextView
@@ -82,11 +93,16 @@ class CreateHeadlineActivity : BaseActivity() {
 
         initView()
         initListener()
+        if (headlineId != 0) {
+            startObserveData()
+            viewModel.getHeadlineData(headlineId)
+        }
         adsManager.setupInterstitial()
+
 
         Handler(Looper.getMainLooper()).postDelayed({
             showTextBottomDialog()
-        }, 1500)
+        }, 600)
 
     }
 
@@ -94,16 +110,23 @@ class CreateHeadlineActivity : BaseActivity() {
 
         with(binding) {
 
-            val layoutResource = getDetailTemplateLayout(templateId)
+            try {
 
-            viewStub.layoutResource = layoutResource
-            val inflatedView: View = viewStub.inflate()
+                val layoutResource = getDetailTemplateLayout(templateId)
 
-            tvHeadline = inflatedView.findViewById(R.id.tvHeadline)
-            tvDescription = inflatedView.findViewById(R.id.tvDescription)
-            tvWatermark = inflatedView.findViewById(R.id.tvWatermark)
-            ivHeadline = inflatedView.findViewById(R.id.ivHeadline)
-            containerTemplate = inflatedView.findViewById(R.id.container)
+                viewStub.layoutResource = layoutResource
+                val inflate: View = viewStub.inflate()
+
+                tvHeadline = inflate.findViewById(R.id.tvHeadline)
+                tvDescription = inflate.findViewById(R.id.tvDescription)
+                tvWatermark = inflate.findViewById(R.id.tvWatermark)
+                ivHeadline = inflate.findViewById(R.id.ivHeadline)
+                containerTemplate = inflate.findViewById(R.id.container)
+                watermark = tvWatermark.text.toString()
+
+            } catch (error: Exception) {
+
+            }
 
         }
 
@@ -126,7 +149,7 @@ class CreateHeadlineActivity : BaseActivity() {
             }
 
             btnPreview.setOnClickListener {
-                if (headline!!.isNotEmpty() && description!!.isNotEmpty()) {
+                if (headline!!.isNotEmpty() && description!!.isNotEmpty() && watermark!!.isNotEmpty()) {
                     showInterstitialAds()
                 } else {
                     toast(getString(R.string.please_input_data))
@@ -150,18 +173,49 @@ class CreateHeadlineActivity : BaseActivity() {
 
     }
 
+    private fun startObserveData() {
+
+        viewModel.headlineEntityState.observe(this) {
+
+            if (it != null) {
+                tvHeadline.text = it?.headline ?: ""
+                tvDescription.text = it?.description ?: ""
+                tvWatermark.text = it?.author ?: ""
+
+                headline = it.headline
+                description = it.description
+                watermark =
+                    if (it.author.isNullOrBlank()) getString(R.string.headline) else it.author
+
+            }
+        }
+
+    }
+
     private fun navigateToPreview() {
 
-        val request = HeadlineNewsEntity(
-            headline = headline!!,
-            description = description!!,
-            author = "",
-            datetime = getCurrentDateTime(),
-            image = "",
-            templateId = templateId,
-        )
-
-        viewModel.insertHeadline(request)
+        if (headlineId != null || headlineId != 0) {
+            val request = HeadlineNewsEntity(
+                id = headlineId,
+                headline = headline!!,
+                description = description!!,
+                author = watermark ?: "",
+                datetime = getCurrentDateTime(),
+                image = "",
+                templateId = templateId,
+            )
+            viewModel.updateHeadline(request)
+        } else {
+            val request = HeadlineNewsEntity(
+                headline = headline!!,
+                description = description!!,
+                author = watermark ?: "",
+                datetime = getCurrentDateTime(),
+                image = "",
+                templateId = templateId,
+            )
+            viewModel.insertHeadline(request)
+        }
 
         val bitmap = getBitmapFromUiView(containerTemplate)
 
@@ -178,45 +232,46 @@ class CreateHeadlineActivity : BaseActivity() {
 
     private fun showTextBottomDialog() {
 
-        val textBottomDialog =
-            ViewInputHeadlineBottomDialogBinding.inflate(
+        if (!bottomSheetDialog.isShowing) {
+
+            val textBottomDialog = ViewInputHeadlineBottomDialogBinding.inflate(
                 layoutInflater, null, false
             )
 
-        val dialog = BottomSheetDialog(this, R.style.AppBottomSheetDialogTheme)
-        dialog.apply {
-            setCancelable(true)
-            setCanceledOnTouchOutside(true)
-            setContentView(textBottomDialog.root)
-        }
-
-        with(textBottomDialog) {
-
-            etHeadline.setText(headline ?: "")
-            etDescription.setText(description ?: "")
-
-            etHeadline.afterTextChanged {
-                headline = it
-                tvHeadline.text = it
+            bottomSheetDialog.apply {
+                setCancelable(true)
+                setCanceledOnTouchOutside(true)
+                setContentView(textBottomDialog.root)
             }
 
-            etDescription.afterTextChanged {
-                description = it
-                tvDescription.text = it
+            with(textBottomDialog) {
+
+                etHeadline.setText(headline ?: "")
+                etDescription.setText(description ?: "")
+                etWatermark.setText(watermark ?: "")
+
+                etHeadline.afterTextChanged {
+                    headline = it
+                    tvHeadline.text = it
+                }
+
+                etDescription.afterTextChanged {
+                    description = it
+                    tvDescription.text = it
+                }
+
+                etWatermark.afterTextChanged {
+                    watermark = it
+                    tvWatermark.text = it
+                }
+
+                tvDone.setOnClickListener {
+                    bottomSheetDialog.dismiss()
+                }
+
             }
 
-            btnSave.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            tvDone.setOnClickListener {
-                dialog.dismiss()
-            }
-
-        }
-
-        if (!dialog.isShowing) {
-            dialog.apply {
+            bottomSheetDialog.apply {
                 show()
                 // Animate the dialog's behavior state change
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -325,8 +380,6 @@ class CreateHeadlineActivity : BaseActivity() {
                     navigateToPreview()
                 }
             }
-
     }
-
 
 }
