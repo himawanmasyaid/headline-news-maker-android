@@ -117,21 +117,13 @@ class MainActivity : AppCompatActivity() {
             adapter.clear()
             adapter.insertAll(it)
 
-            setLog("it : $it")
-
             if (it.isNullOrEmpty()) {
-                setLog("empty")
                 binding.emptyView.container.visibility = View.VISIBLE
             } else {
-                setLog("gone")
                 binding.emptyView.container.visibility = View.GONE
             }
         }
 
-    }
-
-    private fun setLog(msg: String) {
-        Log.d("main", msg)
     }
 
     fun initRequestConsentFormGdpr() {

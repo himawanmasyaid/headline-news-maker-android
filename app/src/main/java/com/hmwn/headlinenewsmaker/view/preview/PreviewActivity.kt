@@ -15,6 +15,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import android.graphics.Color;
+import android.util.Log
 import com.hmwn.headlinenewsmaker.common.clearTask
 import com.hmwn.headlinenewsmaker.common.clearTop
 import com.hmwn.headlinenewsmaker.common.createIntent
@@ -23,6 +24,7 @@ import com.hmwn.headlinenewsmaker.common.newTask
 import com.hmwn.headlinenewsmaker.common.startActivityOutRightTransition
 import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.data.Constants.PATH_DEFAULT
+import com.hmwn.headlinenewsmaker.data.model.DataHolder
 import com.hmwn.headlinenewsmaker.databinding.ActivityPreviewBinding
 import com.hmwn.headlinenewsmaker.databinding.ViewTemplateLandscapeCnnBinding
 import com.hmwn.headlinenewsmaker.view.main.MainActivity
@@ -36,7 +38,6 @@ class PreviewActivity : AppCompatActivity() {
 
     companion object {
         const val HEADLINE_ARG = "headline"
-        const val IMAGE_ARG = "image"
     }
 
     val headline by lazy {
@@ -44,7 +45,7 @@ class PreviewActivity : AppCompatActivity() {
     }
 
     val byteArray by lazy {
-        intent.getByteArrayExtra(IMAGE_ARG)
+        DataHolder.getByteArray()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,10 +59,12 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun initView() {
 
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
+        if (byteArray != null) {
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
 
-        with(binding) {
-            ivPreview.setImageBitmap(bitmap)
+            with(binding) {
+                ivPreview.setImageBitmap(bitmap)
+            }
         }
 
     }
@@ -179,6 +182,11 @@ class PreviewActivity : AppCompatActivity() {
                 toast(getString(R.string.download_failed))
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DataHolder.clear()
     }
 
 }

@@ -35,6 +35,7 @@ import com.hmwn.headlinenewsmaker.common.getCurrentDateTime
 import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
 import com.hmwn.headlinenewsmaker.common.toast
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
+import com.hmwn.headlinenewsmaker.data.model.DataHolder
 import com.hmwn.headlinenewsmaker.data.model.getDetailTemplateLayout
 import com.hmwn.headlinenewsmaker.databinding.ActivityCreateHeadlineBinding
 import com.hmwn.headlinenewsmaker.databinding.ViewInputHeadlineBottomDialogBinding
@@ -99,7 +100,6 @@ class CreateHeadlineActivity : BaseActivity() {
         }
         adsManager.setupInterstitial()
 
-
         Handler(Looper.getMainLooper()).postDelayed({
             showTextBottomDialog()
         }, 600)
@@ -150,6 +150,8 @@ class CreateHeadlineActivity : BaseActivity() {
 
             btnPreview.setOnClickListener {
                 if (headline!!.isNotEmpty() && description!!.isNotEmpty() && watermark!!.isNotEmpty()) {
+                    saveHeadlineToLocalDatabase()
+                    convertViewToByteBitmap()
                     showInterstitialAds()
                 } else {
                     toast(getString(R.string.please_input_data))
@@ -194,7 +196,15 @@ class CreateHeadlineActivity : BaseActivity() {
 
     private fun navigateToPreview() {
 
-        if (headlineId != null || headlineId != 0) {
+        startActivityLeftTransition<PreviewActivity>(
+            PreviewActivity.HEADLINE_ARG to headline,
+        )
+
+    }
+
+    private fun saveHeadlineToLocalDatabase() {
+
+        if (headlineId != 0) {
             val request = HeadlineNewsEntity(
                 id = headlineId,
                 headline = headline!!,
@@ -217,16 +227,15 @@ class CreateHeadlineActivity : BaseActivity() {
             viewModel.insertHeadline(request)
         }
 
+    }
+
+    fun convertViewToByteBitmap(){
+
         val bitmap = getBitmapFromUiView(containerTemplate)
 
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        val byteArray = stream.toByteArray()
-
-        startActivityLeftTransition<PreviewActivity>(
-            PreviewActivity.HEADLINE_ARG to headline,
-            PreviewActivity.IMAGE_ARG to byteArray
-        )
+        DataHolder.setByteArray(stream.toByteArray())
 
     }
 
@@ -366,7 +375,6 @@ class CreateHeadlineActivity : BaseActivity() {
         adsManager?.getInterstitial()!!.getAds()?.fullScreenContentCallback =
             object : FullScreenContentCallback() {
                 override fun onAdClicked() {
-                    // Called when a click is recorded for an ad.
                     navigateToPreview()
                 }
 

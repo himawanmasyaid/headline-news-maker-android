@@ -104,6 +104,7 @@ private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, A
             is Serializable -> intent.putExtra(it.first, value)
             is Bundle -> intent.putExtra(it.first, value)
             is Parcelable -> intent.putExtra(it.first, value)
+            is Parcelable -> intent.putExtra(it.first, value)
             is Array<*> -> when {
                 value.isArrayOf<CharSequence>() -> intent.putExtra(it.first, value)
                 value.isArrayOf<String>() -> intent.putExtra(it.first, value)
@@ -117,6 +118,7 @@ private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, A
             is CharArray -> intent.putExtra(it.first, value)
             is ShortArray -> intent.putExtra(it.first, value)
             is BooleanArray -> intent.putExtra(it.first, value)
+            is ByteArray -> intent.putExtra(it.first, value)
             else -> throw Exception("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
         }
         return@forEach
