@@ -16,32 +16,50 @@ fun getTemplateDesign() = listOf(
         templateType = TemplateType.LANDSCAPE
     ),
     TemplateDesignModel(
-        id = 4,
-        template = R.layout.view_template_potrait_1,
-        templateType = TemplateType.POTRAIT
-    ),
-    TemplateDesignModel(
-        id = 2,
+        id = 3,
         template = R.layout.view_template_landscape_bbc,
         templateType = TemplateType.LANDSCAPE
     ),
     TemplateDesignModel(
-        id = 3,
+        id = 5,
+        template = R.layout.view_template_rectangle_1,
+        templateType = TemplateType.RECTANGLE
+    ),
+    TemplateDesignModel(
+        id = 6,
+        template = R.layout.view_template_rectangle_2,
+        templateType = TemplateType.RECTANGLE
+    ),
+    TemplateDesignModel(
+        id = 2,
+        template = R.layout.view_template_potrait_1,
+        templateType = TemplateType.POTRAIT
+    ),
+    TemplateDesignModel(
+        id = 8,
+        template = R.layout.view_template_potrait_2,
+        templateType = TemplateType.POTRAIT
+    ),
+    TemplateDesignModel(
+        id = 4,
         template = R.layout.view_template_landscape_cnn_2,
         templateType = TemplateType.LANDSCAPE
     ),
-
+    TemplateDesignModel(
+        id = 7,
+        template = R.layout.view_template_landscape_bbc_2,
+        templateType = TemplateType.LANDSCAPE
+    ),
 )
 
+fun getFilterByCategory(categoryId: Int): List<TemplateDesignModel> {
+    val data = getTemplateDesign()
+    return data.filter { it.id == categoryId }
+}
+
 fun getDetailTemplateLayout(id: Int) : Int {
-    val data = getTemplateDesign().find { it.id == id }
-
-    return if (data != null) {
-        data!!.template
-    } else {
-        R.layout.view_template_landscape_cnn
-    }
-
+    val data = getTemplateDesign().findLast { it.id == id }
+    return data!!.template
 }
 
 fun getTemplateDesignLayout(id: Int) : TemplateDesignModel? {

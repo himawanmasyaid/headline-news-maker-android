@@ -3,7 +3,9 @@ package com.hmwn.headlinenewsmaker.view.template
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.hmwn.headlinenewsmaker.R
 import com.hmwn.headlinenewsmaker.data.model.TemplateDesignModel
 import com.hmwn.headlinenewsmaker.databinding.ItemTemplateDesignBinding
 
@@ -50,13 +52,25 @@ class TemplateAdapter : RecyclerView.Adapter<TemplateAdapter.ViewHolder>() {
 
             with(binding) {
 
-                viewStub.layoutResource = item.template
-                viewStub.inflate()
+                val context = itemView.context
 
-            }
+                try {
+                    root.setOnClickListener {
+                        callbackListener.onClickSetting(item)
+                    }
 
-            itemView.rootView.setOnClickListener {
-                callbackListener.onClickSetting(item)
+                    viewStub.layoutResource = item.template
+                    val inflater: View = viewStub.inflate()
+
+                    val tvHeadline = inflater.findViewById<TextView>(R.id.tvHeadline)
+                    val tvDescription = inflater.findViewById<TextView>(R.id.tvDescription)
+
+                    tvHeadline.text = context.getString(R.string.easy_ways_to_create_headline)
+                    tvDescription.text = context.getString(R.string.easy_ways_to_create_headline_sub_desc)
+
+                } catch (error: Exception) {
+                }
+
             }
 
         }
