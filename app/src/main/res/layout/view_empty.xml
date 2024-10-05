@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
+    android:id="@+id/container"
+    android:visibility="visible"
     >
-
 
     <TextView
         style="@style/TextParagraph1.Bold"

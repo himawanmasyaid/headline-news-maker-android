@@ -3,6 +3,8 @@ package com.hmwn.headlinenewsmaker.view.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -33,9 +35,11 @@ import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import com.hmwn.headlinenewsmaker.BuildConfig
 import com.hmwn.headlinenewsmaker.R
+import com.hmwn.headlinenewsmaker.common.gone
 import com.hmwn.headlinenewsmaker.common.setupRecyclerView
 import com.hmwn.headlinenewsmaker.common.setupRecyclerViewVertical
 import com.hmwn.headlinenewsmaker.common.startActivityLeftTransition
+import com.hmwn.headlinenewsmaker.common.visible
 import com.hmwn.headlinenewsmaker.data.local.entity.HeadlineNewsEntity
 import com.hmwn.headlinenewsmaker.databinding.ActivityMainBinding
 import com.hmwn.headlinenewsmaker.ui.theme.PrimaryColor
@@ -82,7 +86,6 @@ class MainActivity : AppCompatActivity() {
             rvContent.adapter = adapter
             rvContent.setupRecyclerViewVertical(this@MainActivity)
 
-
         }
 
     }
@@ -91,8 +94,8 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
 
-             btnCreateHeadline.setOnClickListener {
-                 startActivityLeftTransition<TemplateActivity>()
+            btnCreateHeadline.setOnClickListener {
+                startActivityLeftTransition<TemplateActivity>()
             }
 
         }
@@ -102,7 +105,8 @@ class MainActivity : AppCompatActivity() {
                 startActivityLeftTransition<CreateHeadlineActivity>(
                     CreateHeadlineActivity.TEMPLATE_ID_ARG to it.templateId,
                     CreateHeadlineActivity.HEADLINE_ID_ARG to it.id,
-                )            }
+                )
+            }
         })
 
     }
@@ -112,10 +116,23 @@ class MainActivity : AppCompatActivity() {
         viewModel.headlinesState.observe(this) {
             adapter.clear()
             adapter.insertAll(it)
+
+            setLog("it : $it")
+
+            if (it.isNullOrEmpty()) {
+                setLog("empty")
+                binding.emptyView.container.visibility = View.VISIBLE
+            } else {
+                setLog("gone")
+                binding.emptyView.container.visibility = View.GONE
+            }
         }
 
     }
 
+    private fun setLog(msg: String) {
+        Log.d("main", msg)
+    }
 
     fun initRequestConsentFormGdpr() {
 
