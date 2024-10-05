@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="608px"
+    android:layout_height="wrap_content"
     android:background="@color/black6">
 
     <ImageView
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
-        android:src="@color/black5"
+        android:src="@drawable/img_city_landscape"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/tvHeadline"
-            style="@style/Header7.Bold"
+            style="@style/TextParagraph1.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toEndOf="@+id/line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/your_headline_text_here" />
+            tools:text="@string/easy_ways_to_create_headline" />
 
         <View
             android:id="@+id/line"
